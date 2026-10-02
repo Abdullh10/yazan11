@@ -1,0 +1,1006 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>مغامرة التقريب</title>
+<script>document.documentElement.dir='rtl';document.documentElement.lang='ar';</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@500;700;800&family=Tajawal:wght@400;500;700&display=swap">
+<style>
+/* ====== المتغيرات الأساسية ====== */
+:root{
+  --bg:#EAF4FA; --surface:#FFFFFF; --surface-2:#D8EBF6; --ink:#12324A; --muted:#4E6B82;
+  --sea:#0D6FB0; --sea-deep:#0A4F80; --sun:#FFC23D; --sun-ink:#5A3D00; --coral:#E14E36;
+  --kelp:#1A8F63; --ground:#C9E3B5; --ground-line:#6FA24E; --line:#B9D3E4; --wave:#BFE0F3; --title:#0A4F80;
+  --f-display:"Baloo Bhaijaan 2","Tajawal",system-ui,sans-serif;
+  --f-body:"Tajawal",system-ui,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0A1A28; --surface:#11283B; --surface-2:#173550; --ink:#E4F0F8; --muted:#9DB8CC;
+  --sea:#4FA9E8; --sea-deep:#2E86C6; --sun:#FFC948; --sun-ink:#3B2800; --coral:#FF7A63;
+  --kelp:#3CC48F; --ground:#1F3B2A; --ground-line:#5E9A49; --line:#2A4A63; --wave:#16405E; --title:#7CC3F2;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0A1A28; --surface:#11283B; --surface-2:#173550; --ink:#E4F0F8; --muted:#9DB8CC;
+  --sea:#4FA9E8; --sea-deep:#2E86C6; --sun:#FFC948; --sun-ink:#3B2800; --coral:#FF7A63;
+  --kelp:#3CC48F; --ground:#1F3B2A; --ground-line:#5E9A49; --line:#2A4A63; --wave:#16405E; --title:#7CC3F2;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{direction:rtl;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.75;padding-inline:16px;padding-block:0 48px}
+.wrap{max-width:900px;margin-inline:auto;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--f-display);line-height:1.3;text-wrap:balance;margin:0}
+p{margin:0}
+button{font-family:inherit;cursor:pointer;color:inherit}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px;border-radius:8px}
+.num{font-family:var(--f-display);font-weight:700;direction:ltr;unicode-bidi:isolate;display:inline-block}
+
+/* ====== الشريط العلوي (مع الأدوات) ====== */
+nav.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);padding-block:10px;margin-inline:-16px;padding-inline:16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px}
+nav.top ul{list-style:none;margin:0;padding:0;max-width:900px;flex:1;display:flex;gap:8px;overflow-x:auto}
+nav.top a{display:block;white-space:nowrap;text-decoration:none;color:var(--ink);font-weight:700;padding:6px 14px;border-radius:999px;background:var(--surface-2);font-size:15px}
+nav.top a:hover{background:var(--sun);color:var(--sun-ink)}
+.nav-tools{display:flex;gap:6px;flex:none}
+.nav-tools button{border:0;background:var(--surface-2);color:var(--ink);border-radius:999px;width:38px;height:38px;display:grid;place-items:center;font-size:18px;cursor:pointer;transition:background .2s}
+.nav-tools button:hover{background:var(--sun);color:var(--sun-ink)}
+
+/* ====== قسم البطل ====== */
+header.hero{padding-top:20px;display:grid;gap:14px}
+.badge{justify-self:start;font-family:var(--f-display);font-weight:800;background:var(--sea);color:#fff;padding:2px 14px;border-radius:999px;font-size:15px}
+.hero h1{font-size:clamp(30px,6vw,46px);color:var(--title)}
+.goal{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.goal div{background:var(--surface);border-radius:16px;padding:10px 14px;border-inline-start:6px solid var(--sea)}
+.goal div:last-child{border-inline-start-color:var(--sun)}
+.goal b{display:block;font-family:var(--f-display);color:var(--sea-deep)}
+:root[data-theme="dark"] .goal b{color:var(--title)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .goal b{color:var(--title)}}
+@media (max-width:560px){.goal{grid-template-columns:1fr}}
+.story{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;background:var(--surface);border-radius:20px;padding:18px;border:2px dashed var(--line)}
+.story svg{width:96px;height:96px}
+.story>div{min-width:0;display:grid;gap:10px}
+.story b{color:var(--coral)}
+.word{background:var(--sun);color:var(--sun-ink);padding:0 8px;border-radius:6px;font-weight:700}
+.ready{background:var(--surface-2);border-radius:14px;padding:10px 12px;display:grid;gap:8px}
+@media (max-width:480px){.story{grid-template-columns:1fr}.story svg{justify-self:center}}
+
+/* ====== الأقسام ====== */
+section.block{display:grid;gap:16px}
+.sec-head{display:flex;align-items:center;gap:12px}
+.sec-head .ico{flex:none;width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:var(--sea);color:#fff;font-family:var(--f-display);font-weight:800;font-size:20px}
+.sec-head h2{font-size:clamp(24px,4.5vw,32px)}
+.sec-sub{color:var(--muted);max-width:62ch}
+.panel{background:var(--surface);border-radius:22px;padding:18px;display:grid;gap:14px}
+.remember{background:color-mix(in srgb,var(--sun) 30%,var(--surface));border-radius:14px;padding:8px 14px;font-weight:700}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:2px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:4px 14px;font-weight:700;font-size:15px}
+.chip[aria-pressed="true"]{background:var(--sea);border-color:var(--sea);color:#fff}
+.chip:disabled{opacity:.35;cursor:not-allowed}
+
+/* ====== التلة ====== */
+.hill-wrap{overflow-x:auto}
+.hill svg{width:100%;height:auto;display:block;min-width:300px}
+.bignum{font-size:clamp(40px,9vw,64px);font-family:var(--f-display);font-weight:800;text-align:center;direction:ltr;letter-spacing:.04em;line-height:1.15}
+.dg{display:inline-block;padding:0 2px;transition:color .2s,background .2s;border-bottom:5px solid transparent}
+.dg.under{border-bottom-color:var(--sea);color:var(--sea)}
+.dg.peek{color:var(--coral);background:color-mix(in srgb,var(--coral) 14%,transparent);border-radius:8px}
+button.dg{font:inherit;background:none;border-top:0;border-inline:0;border-radius:8px}
+button.dg:hover{background:color-mix(in srgb,var(--sun) 35%,transparent)}
+button.dg.miss{animation:shake .4s}
+.ctrl{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:center}
+input[type=range]{width:min(100%,420px);accent-color:var(--coral);direction:ltr}
+.btn{border:0;border-radius:14px;padding:10px 20px;font-weight:800;font-size:17px;font-family:var(--f-display);background:var(--coral);color:#fff;box-shadow:0 4px 0 color-mix(in srgb,var(--coral) 60%,#000)}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 color-mix(in srgb,var(--coral) 60%,#000)}
+.btn.alt{background:var(--sea);box-shadow:0 4px 0 var(--sea-deep)}
+.btn.ghost{background:var(--surface-2);color:var(--ink);box-shadow:none}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.verdict{text-align:center;font-weight:700;min-height:2em;font-size:18px}
+.rule-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.rule{border-radius:18px;padding:14px;display:grid;gap:4px}
+.rule h3{font-size:20px}
+.rule.down{background:color-mix(in srgb,var(--sea) 14%,var(--surface))}
+.rule.up{background:color-mix(in srgb,var(--coral) 14%,var(--surface))}
+.rule .big{font-family:var(--f-display);font-weight:800;font-size:22px;direction:ltr;text-align:right;word-spacing:.3em}
+@media (max-width:520px){.rule-cards{grid-template-columns:1fr}}
+
+/* ====== الآلة ====== */
+.machine-in{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.machine-in label{font-weight:700}
+.field{font:700 20px var(--f-display);direction:ltr;text-align:center;width:9em;padding:6px 10px;border-radius:12px;border:2px solid var(--line);background:var(--bg);color:var(--ink)}
+.field.ok{border-color:var(--kelp)}.field.no{border-color:var(--coral)}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.steps li{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;padding:10px 12px;border-radius:14px;background:var(--surface-2);opacity:.35;transition:opacity .3s}
+.steps li.on{opacity:1}
+.steps .n{width:32px;height:32px;border-radius:50%;background:var(--sea);color:#fff;display:grid;place-items:center;font-family:var(--f-display);font-weight:800}
+.steps li>div{min-width:0}
+.carry{display:block;margin-top:4px;color:var(--coral);font-weight:700}
+.task{border:2px dashed var(--sea);border-radius:16px;padding:12px;display:grid;gap:10px;justify-items:center;text-align:center}
+.task .msg{min-height:1.6em;font-weight:700}
+.task .msg.ok{color:var(--kelp)}.task .msg.no{color:var(--coral)}
+.result{font-family:var(--f-display);font-size:26px;font-weight:800;text-align:center;color:var(--kelp)}
+.mini-line{direction:ltr;position:relative;height:64px;margin-inline:24px}
+.mini-line .bar{position:absolute;inset-inline:0;top:22px;height:4px;background:var(--ink);border-radius:2px}
+.mini-line .end{position:absolute;top:30px;transform:translateX(-50%);font-family:var(--f-display);font-weight:700;font-size:15px;white-space:nowrap;padding:0 6px;border-radius:8px}
+.mini-line .end.win{background:var(--kelp);color:#fff}
+.mini-line .tick{position:absolute;top:14px;width:3px;height:20px;background:var(--ink);transform:translateX(-50%)}
+.mini-line .mid{opacity:.4}
+.mini-line .pin{position:absolute;top:0;transform:translateX(-50%);width:18px;height:18px;border-radius:50% 50% 50% 0;rotate:-45deg;background:var(--coral);transition:left .6s}
+
+/* ====== اللعبة ====== */
+.game{position:relative;overflow:hidden;border-radius:22px;background:linear-gradient(var(--surface) 0 34%,var(--wave) 34% 100%);min-height:400px;display:grid}
+.hud{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:12px 14px;font-weight:700;font-variant-numeric:tabular-nums;align-items:center}
+.hud span b{font-family:var(--f-display);color:var(--sea)}
+.combo{color:var(--coral);font-family:var(--f-display);font-weight:800}
+.combo.hide{visibility:hidden}
+.timer-wrap{margin-inline:14px;display:flex;gap:10px;align-items:center}
+.timer{flex:1;height:8px;background:var(--surface-2);border-radius:4px;overflow:hidden}
+.timer i{display:block;height:100%;width:100%;background:var(--sun);transform-origin:right}
+.timer-sec{font-family:var(--f-display);font-weight:700;font-size:15px;min-width:2.5em;text-align:center}
+.g-q{text-align:center;font-weight:700;font-size:19px;padding:10px 14px 0}
+.g-q .num{color:var(--coral);font-size:1.25em}
+.sea{position:relative;height:250px;direction:ltr;margin-top:6px}
+.isles{position:absolute;inset-inline:2%;bottom:10px;display:flex;justify-content:space-between;gap:2%}
+.island{position:relative;flex:1;max-width:210px;height:110px;border:0;background:none;padding:0;display:grid;place-items:end center;color:var(--ink)}
+.island svg{position:absolute;inset:0;width:100%;height:100%}
+.island .lbl{position:relative;font-family:var(--f-display);font-weight:800;font-size:clamp(17px,4.2vw,26px);background:var(--surface);padding:0 10px;border-radius:10px;margin-bottom:12px;border:2px solid var(--line);direction:ltr}
+.island:hover .lbl{border-color:var(--sun)}
+.island.good .lbl{background:var(--kelp);color:#fff;border-color:var(--kelp)}
+.island.bad .lbl{background:var(--coral);color:#fff;border-color:var(--coral)}
+.boat{position:absolute;left:50%;bottom:122px;transform:translateX(-50%);transition:left .8s ease-in-out,bottom .8s ease-in-out;display:grid;justify-items:center;pointer-events:none;z-index:2}
+.boat.landed{bottom:62px}
+.boat .tag{font-family:var(--f-display);font-weight:800;font-size:clamp(20px,5vw,28px);background:var(--sun);color:var(--sun-ink);padding:0 12px;border-radius:12px;margin-bottom:-4px;direction:ltr}
+.boat .tag .dg.under{color:var(--sea-deep);border-bottom-color:var(--sea-deep)}
+.boat svg{width:90px;height:50px}
+.bob{animation:bob 2.2s ease-in-out infinite}
+@keyframes bob{50%{translate:0 -6px}}
+.shake{animation:shake .4s}
+@keyframes shake{25%{translate:-6px 0}75%{translate:6px 0}}
+.g-fb{text-align:center;min-height:3.4em;padding:0 14px 12px;font-weight:700}
+.g-fb .ok{color:var(--kelp)} .g-fb .no{color:var(--coral)}
+.overlay{position:absolute;inset:0;background:color-mix(in srgb,var(--surface) 94%,transparent);display:grid;place-items:center;text-align:center;padding:20px;z-index:3}
+.overlay>div{display:grid;gap:12px;justify-items:center;max-width:46ch}
+.overlay h3{font-size:30px;color:var(--title)}
+.stars{font-size:40px;letter-spacing:6px;color:var(--sun)}
+.stars .off{color:var(--line)}
+.levels{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;font-size:14px;color:var(--muted)}
+.levels span{background:var(--surface-2);padding:0 10px;border-radius:999px}
+.end-stats{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;font-weight:700}
+.end-stats div{background:var(--surface-2);padding:6px 14px;border-radius:12px}
+.end-stats b{color:var(--sea);font-family:var(--f-display)}
+
+/* ====== التقويم ====== */
+.q-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.progress{flex:1;min-width:160px;height:10px;background:var(--surface-2);border-radius:5px;overflow:hidden}
+.progress i{display:block;height:100%;background:var(--kelp);width:0;transition:width .3s;margin-inline-start:0}
+.part-tag{font-size:14px;background:var(--surface-2);border-radius:999px;padding:0 10px;font-weight:700;justify-self:start}
+.q-text{font-size:20px;font-weight:700}
+.q-text .num{color:var(--sea)}
+.u{border-bottom:4px solid var(--coral)}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.opts.long{grid-template-columns:1fr}
+@media (max-width:520px){.opts{grid-template-columns:1fr}}
+.opt{text-align:start;border:2px solid var(--line);background:var(--bg);color:var(--ink);border-radius:14px;padding:10px 14px;font-size:18px;font-weight:700;display:flex;gap:10px;align-items:center}
+.opt .k{flex:none;width:28px;height:28px;border-radius:50%;background:var(--surface-2);display:grid;place-items:center;font-family:var(--f-display)}
+.opt:hover:not(:disabled){border-color:var(--sea)}
+.opt.right{border-color:var(--kelp);background:color-mix(in srgb,var(--kelp) 16%,var(--surface))}
+.opt.wrong{border-color:var(--coral);background:color-mix(in srgb,var(--coral) 14%,var(--surface))}
+.opt:disabled{cursor:default}
+.in-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+textarea{font:500 17px var(--f-body);width:100%;min-height:110px;padding:10px;border-radius:12px;border:2px solid var(--line);background:var(--bg);color:var(--ink)}
+.explain{border-radius:14px;padding:12px 14px;background:var(--surface-2)}
+.explain b.ok{color:var(--kelp)} .explain b.no{color:var(--coral)}
+.q-nav{display:flex;justify-content:flex-end;gap:8px}
+.score-big{font-family:var(--f-display);font-size:56px;font-weight:800;color:var(--sea);line-height:1}
+.review{list-style:none;margin:0;padding:0;display:grid;gap:8px;width:100%}
+.review li{background:var(--surface-2);border-radius:12px;padding:8px 12px;text-align:start}
+.name-in{font:700 18px var(--f-body);padding:6px 12px;border-radius:12px;border:2px solid var(--line);background:var(--bg);color:var(--ink);width:min(100%,260px)}
+.parts{display:grid;gap:6px}
+.parts label{display:flex;gap:8px;align-items:center;font-weight:700}
+.parts input{width:20px;height:20px;accent-color:var(--sea)}
+.err-list{display:grid;gap:8px;width:100%;text-align:start}
+.err-list div{background:color-mix(in srgb,var(--coral) 10%,var(--surface));border-radius:12px;padding:8px 12px}
+.report{width:100%;font:500 15px/1.6 var(--f-body);min-height:180px}
+footer{color:var(--muted);font-size:14px;text-align:center}
+
+/* ====== الإضافات الجديدة ====== */
+.achievements{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.ach{background:var(--surface-2);border-radius:14px;padding:12px;text-align:center;opacity:.45;transition:opacity .3s,transform .3s;border:2px solid transparent}
+.ach.unlocked{opacity:1;border-color:var(--sun);background:linear-gradient(135deg,color-mix(in srgb,var(--sun) 40%,var(--surface)),var(--surface))}
+.ach .ico{font-size:30px;line-height:1;display:block}
+.ach b{display:block;font-family:var(--f-display);font-size:15px;margin-top:4px;color:var(--sea-deep)}
+:root[data-theme="dark"] .ach b{color:var(--title)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .ach b{color:var(--title)}}
+.ach small{font-size:12px;color:var(--muted);display:block;line-height:1.4}
+
+.toast{position:fixed;bottom:20px;inset-inline:20px;max-width:380px;margin-inline:auto;background:var(--ink);color:var(--bg);padding:14px 20px;border-radius:14px;text-align:center;font-weight:700;z-index:100;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;transform:translateY(20px);box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast .ico{font-size:22px;margin-inline-end:6px}
+
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:200;overflow:hidden}
+.confetti i{position:absolute;width:10px;height:14px;top:-20px;border-radius:2px;animation:conf 3s linear forwards}
+@keyframes conf{to{transform:translateY(110vh) rotate(720deg);opacity:.6}}
+
+.hint-btn{background:var(--sun);color:var(--sun-ink);border:0;border-radius:999px;padding:4px 14px;font-weight:800;font-family:var(--f-display);font-size:14px}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{
+  nav.top,.overlay,.confetti,.toast,.nav-tools,button{display:none!important}
+  body{background:#fff;color:#000}
+  .panel{border:1px solid #999;page-break-inside:avoid}
+}
+</style>
+
+<nav class="top" aria-label="أقسام الدرس">
+  <ul>
+    <li><a href="#idea">فكرة الدرس</a></li>
+    <li><a href="#hill">تلّة التقريب</a></li>
+    <li><a href="#machine">آلة التقريب</a></li>
+    <li><a href="#game">اللعبة</a></li>
+    <li><a href="#quiz">التقويم</a></li>
+    <li><a href="#badges">الشارات</a></li>
+  </ul>
+  <div class="nav-tools">
+    <button id="themeBtn" title="تبديل الوضع الليلي" aria-label="تبديل الوضع الليلي">🌙</button>
+    <button id="resetAllBtn" title="إعادة تعيين كل البيانات" aria-label="إعادة تعيين كل البيانات">🔄</button>
+  </div>
+</nav>
+
+<div class="wrap">
+  <header class="hero" id="idea">
+    <span class="badge">الدرس ٢-١ · الصف الخامس</span>
+    <h1>تقريب الأعداد والكسور العشرية</h1>
+    <div class="goal">
+      <div><b>فكرة الدرس</b>أقرّب الأعداد والكسور العشرية.</div>
+      <div><b>المفردة: التقريب</b>إيجاد عدد قريب من العدد الأصلي وأسهل منه في الاستعمال.</div>
+    </div>
+    <div class="story">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <circle cx="50" cy="50" r="48" fill="var(--wave)"/>
+        <g fill="var(--coral)">
+          <ellipse cx="50" cy="56" rx="12" ry="22"/><ellipse cx="50" cy="32" rx="9" ry="8"/>
+          <path d="M40 34 Q22 22 24 10 Q32 20 43 28Z"/><path d="M60 34 Q78 22 76 10 Q68 20 57 28Z"/>
+          <path d="M44 76 L38 92 L50 84 L62 92 L56 76Z"/>
+        </g>
+        <g stroke="var(--coral)" stroke-width="2.5" fill="none" stroke-linecap="round">
+          <path d="M39 50 L26 46"/><path d="M39 58 L26 60"/><path d="M61 50 L74 46"/><path d="M61 58 L74 60"/>
+          <path d="M46 26 Q40 8 30 4"/><path d="M54 26 Q60 8 70 4"/>
+        </g>
+        <circle cx="46" cy="30" r="2" fill="#fff"/><circle cx="54" cy="30" r="2" fill="#fff"/>
+      </svg>
+      <div>
+        <p><b>استعدّ:</b> اكتشف العلماء جرادَ بحرٍ طوله <b class="num">١٤٫٩</b> سم على عمق <b class="num">٢٢٩٨</b> مترًا. قالت أمل: «طوله <b class="num">١٥</b> سم تقريبًا، ووُجد على عمق <b class="num">٢٣٠٠</b> م تقريبًا». أمل <span class="word">قرّبت</span> الأعداد لتصبح أسهل.</p>
+        <div class="ready">
+          <p><b style="color:inherit">فكّر:</b> لماذا قالت أمل ١٥ ولم تقل ١٤؟</p>
+          <button class="btn ghost" id="readyBtn" style="justify-self:start">اكشف الجواب</button>
+          <div id="readyAns" hidden>
+            <div class="mini-line"><div class="bar"></div><div class="tick" style="left:0%"></div><div class="tick mid" style="left:50%"></div><div class="tick" style="left:100%"></div><span class="end" style="left:0%">١٤</span><span class="end win" style="left:100%">١٥</span><span class="pin" style="left:90%"></span></div>
+            <p>العدد ١٤٫٩ أقرب كثيرًا إلى ١٥ منه إلى ١٤، لذلك قرّبته أمل إلى ١٥.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="block" id="hill" aria-labelledby="hill-h">
+    <div class="sec-head"><span class="ico" aria-hidden="true">١</span><h2 id="hill-h">تلّة التقريب</h2></div>
+    <p class="sec-sub">كل عدد يقف بين جارين سهلين. أيهما أقرب إليه؟ حرّك الكرة، ثم أفلتها، وانظر إلى أين تتدحرج.</p>
+    <div class="panel hill">
+      <div class="chips" role="group" aria-label="اختر مثالًا">
+        <button class="chip" data-mode="C" aria-pressed="false">أقرب عشرة</button>
+        <button class="chip" data-mode="A" aria-pressed="true">أقرب ألف (مساحة الكويت)</button>
+        <button class="chip" data-mode="B" aria-pressed="false">أقرب جزء من عشرة</button>
+      </div>
+      <div class="bignum" id="hillNum" aria-live="polite"></div>
+      <div class="hill-wrap"><svg id="hillSvg" viewBox="0 0 600 240" role="img" aria-label="تلة بين عددين وكرة عليها"></svg></div>
+      <div class="ctrl">
+        <label for="hillRange" style="font-weight:700">الرقم الواقع عن اليمين:</label>
+        <input type="range" id="hillRange" min="0" max="9" step="1" value="8">
+        <button class="btn" id="dropBtn">أفلت الكرة!</button>
+      </div>
+      <p class="verdict" id="hillVerdict"></p>
+    </div>
+    <div class="rule-cards">
+      <div class="rule down"><h3>الرقم الواقع عن اليمين أصغر من ٥</h3><p class="big">٠ ١ ٢ ٣ ٤</p><p>الكرة لم تصل إلى القمة، فتعود إلى <b>العدد الأصغر</b>. الرقم الذي تحته خط لا يتغيّر.</p></div>
+      <div class="rule up"><h3>الرقم الواقع عن اليمين ٥ أو أكبر</h3><p class="big">٥ ٦ ٧ ٨ ٩</p><p>الكرة عبرت القمة، فتنزل إلى <b>العدد الأكبر</b>. نضيف ١ إلى الرقم الذي تحته خط. إذا وقفت الكرة على القمة تمامًا (الرقم ٥) نتفق أن تتدحرج إلى الأكبر.</p></div>
+    </div>
+  </section>
+
+  <section class="block" id="machine" aria-labelledby="mach-h">
+    <div class="sec-head"><span class="ico" aria-hidden="true">٢</span><h2 id="mach-h">آلة التقريب: أربع خطوات</h2></div>
+    <p class="sec-sub">شاهد الخطوات الأربع كما في الكتاب، ثم اضغط «جرّب بنفسك» لتحل أنت كل خطوة.</p>
+    <div class="panel">
+      <div class="chips" role="group" aria-label="طريقة العمل">
+        <button class="chip" id="modeWatch" aria-pressed="true">شاهد الخطوات</button>
+        <button class="chip" id="modeTry" aria-pressed="false">جرّب بنفسك</button>
+      </div>
+      <div class="chips" id="exChips" role="group" aria-label="أمثلة من الكتاب">
+        <button class="chip" data-ex="17818" data-p="3">١٧٨١٨</button>
+        <button class="chip" data-ex="46.73" data-p="-1">٤٦٫٧٣</button>
+        <button class="chip" data-ex="1096" data-p="1">١٠٩٦</button>
+        <button class="chip" data-ex="3374" data-p="2">٣٣٧٤</button>
+        <button class="chip" data-ex="74.685" data-p="-2">٧٤٫٦٨٥</button>
+      </div>
+      <div class="machine-in">
+        <label for="mNum">العدد:</label>
+        <input id="mNum" class="field" inputmode="decimal" maxlength="15" autocomplete="off">
+      </div>
+      <div class="chips" id="placeChips" role="group" aria-label="المنزلة"></div>
+      <div class="bignum" id="mDisplay"></div>
+      <div class="task" id="mTask" hidden></div>
+      <ol class="steps" id="mSteps"></ol>
+      <div class="mini-line" id="mLine" hidden></div>
+      <p class="result" id="mResult" aria-live="polite"></p>
+      <div class="ctrl">
+        <button class="btn alt" id="mNext">الخطوة التالية</button>
+        <button class="btn ghost" id="mReset">من البداية</button>
+      </div>
+      <p class="remember">تذكّر: يمكنك استعمال خط الأعداد للتحقق من صحة حلّك.</p>
+    </div>
+  </section>
+
+  <section class="block" id="game" aria-labelledby="game-h">
+    <div class="sec-head"><span class="ico" aria-hidden="true">٣</span><h2 id="game-h">لعبة جزيرة الكنز</h2></div>
+    <p class="sec-sub">القارب يحمل عددًا. انقر الجزيرة التي تحمل العدد بعد التقريب. عشر جولات تبدأ سهلة. من الجولة الخامسة تظهر جزيرة ثالثة فيها فخّ. يمكنك استخدام مفاتيح ١ ٢ ٣ في لوحة المفاتيح.</p>
+    <div class="game" id="gameBox">
+      <div>
+        <div class="hud">
+          <span>الجولة <b id="gRound">١</b> من ١٠</span>
+          <span class="combo hide" id="gCombo">سلسلة ×١</span>
+          <span>الصحيحة <b id="gRight">٠</b></span>
+          <span>النقاط <b id="gScore">٠</b></span>
+          <button class="chip" id="gSound" aria-pressed="true">🔊</button>
+        </div>
+        <div class="timer-wrap">
+          <div class="timer" id="gTimerBox"><i id="gTimer"></i></div>
+          <span class="timer-sec" id="gTimerSec">٢٠</span>
+        </div>
+        <p class="g-q" id="gQ"></p>
+        <div class="sea" id="sea">
+          <div class="isles" id="isles"></div>
+          <div class="boat" id="boat"><div class="bob"><span class="tag" id="boatNum"></span><svg viewBox="0 0 90 50" aria-hidden="true"><path d="M44 4 L44 30" stroke="var(--ink)" stroke-width="3"/><path d="M46 6 L70 28 L46 28Z" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/><path d="M6 32 L84 32 L72 46 L18 46Z" fill="var(--coral)"/></svg></div></div>
+        </div>
+        <p class="g-fb" id="gFb" aria-live="polite"></p>
+      </div>
+      <div class="overlay" id="gStart">
+        <div>
+          <h3>جاهز للإبحار؟</h3>
+          <p>عشر جولات: ٢٠ ثانية للأعداد الكلية، و٣٠ ثانية للكسور العشرية.</p>
+          <div class="levels"><span>عشرات</span><span>مئات</span><span>آلاف</span><span>أجزاء من عشرة</span><span>آحاد وأجزاء من مئة</span></div>
+          <button class="chip" id="gTimeMode" aria-pressed="false">بدون وقت</button>
+          <button class="btn" id="gGo">ابدأ اللعبة</button>
+          <p id="gBest" style="font-size:14px;color:var(--muted);font-weight:700"></p>
+        </div>
+      </div>
+      <div class="overlay" id="gEnd" hidden>
+        <div>
+          <h3>وصلت إلى الكنز!</h3>
+          <div class="stars" id="gStars"></div>
+          <div class="end-stats" id="gEndStats"></div>
+          <p id="gEndTxt"></p>
+          <button class="btn" id="gAgain">العب مرة أخرى</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="quiz" aria-labelledby="quiz-h">
+    <div class="sec-head"><span class="ico" aria-hidden="true">٤</span><h2 id="quiz-h">التقويم</h2></div>
+    <p class="sec-sub">ثلاثة أجزاء من تمارين الدرس: اختر، واكتب، وفكّر. بعد كل سؤال يظهر التصحيح والسبب، وفي النهاية تقرير يمكن إرساله للمعلم أو طباعته.</p>
+    <div class="panel" id="quizBox"></div>
+  </section>
+
+  <section class="block" id="badges" aria-labelledby="badges-h">
+    <div class="sec-head"><span class="ico" aria-hidden="true">★</span><h2 id="badges-h">شارات الإنجاز</h2></div>
+    <p class="sec-sub">تُفتح الشارات تلقائيًا أثناء تقدمك في الدرس. محفوظة في متصفحك.</p>
+    <div class="panel"><div class="achievements" id="achGrid"></div></div>
+  </section>
+
+  <footer>مبني على درس «تقريب الأعداد والكسور العشرية»، الفصل الثاني: الجمع والطرح، الصف الخامس.</footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const AR='٠١٢٣٤٥٦٧٨٩',FA='۰۱۲۳۴۵۶۷۸۹';
+const ar=s=>String(s).replace(/\d/g,d=>AR[d]).replace(/\./g,'٫');
+const norm=s=>String(s).replace(/[٠-٩]/g,d=>AR.indexOf(d)).replace(/[۰-۹]/g,d=>FA.indexOf(d)).replace(/[٬\s]/g,'').replace(/[٫,،]/g,'.').replace(/^0+(?=\d)/,'');
+const canon=s=>{s=norm(s);if(s.includes('.'))s=s.replace(/0+$/,'').replace(/\.$/,'');return s.replace(/^0+(?=\d)/,'')||'0';};
+const isNum=s=>/^\d+(\.\d+)?$/.test(s);
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[<>&"]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
+const parts=str=>{const [i,f='']=str.split('.');return {i,f,d:f.length};};
+function roundInfo(str,p){
+  const {i,f,d}=parts(str);const sc=BigInt(i+f),unit=10n**BigInt(p+d);
+  const lo=sc/unit*unit,hi=lo+unit,rem=sc-lo,up=rem*2n>=unit,dec=Math.max(0,-p);
+  const toS=v=>{const s=v.toString().padStart(d+1,'0');return (d?s.slice(0,-d)+'.'+s.slice(-d,s.length-(d-dec)):s).replace(/\.$/,'');};
+  return {lo:toS(lo),hi:toS(hi),ans:toS(up?hi:lo),up,frac:Number(rem*1000n/unit)/1000,
+    below:lo-unit>0n?toS(lo-unit):null,above:toS(hi+unit)};
+}
+const idxOf=(str,p)=>{const {i}=parts(str);return p>=0?i.length-1-p:i.length-p;};
+const nextIdx=(str,k)=>str[k+1]==='.'?k+2:k+1;
+const placeAt=(str,k)=>{const {i}=parts(str);return k<i.length?i.length-1-k:-(k-i.length);};
+const PN={5:'مئات الألوف',4:'عشرات الألوف',3:'الآلاف',2:'المئات',1:'العشرات',0:'الآحاد','-1':'أجزاء من عشرة','-2':'أجزاء من مئة','-3':'أجزاء من ألف'};
+const PA={5:'أقرب مئة ألف',4:'أقرب عشرة آلاف',3:'أقرب ألف',2:'أقرب مئة',1:'أقرب عشرة',0:'أقرب عدد كلي','-1':'أقرب جزء من عشرة','-2':'أقرب جزء من مئة','-3':'أقرب جزء من ألف'};
+function digitsHTML(str,u,pk){
+  return str.split('').map((c,k)=>{let cl='dg';if(k===u)cl+=' under';if(k===pk)cl+=' peek';
+    return `<span class="${cl}">${c==='.'?'٫':AR[c]}</span>`;}).join('');
+}
+const uNum=(num,p)=>{const u=idxOf(num,p);return `<span class="num">${num.split('').map((c,k)=>c==='.'?'٫':(k===u?`<span class="u">${AR[c]}</span>`:AR[c])).join('')}</span>`;};
+const rule=(dig,up)=>up?`الرقم الواقع عن اليمين ${AR[dig]} هو ٥ أو أكبر، فنضيف ١`:`الرقم الواقع عن اليمين ${AR[dig]} أصغر من ٥، فلا نغيّر الرقم الذي تحته خط`;
+
+/* ============ التخزين المحلي ============ */
+const STORE_KEY='rounding-adventure-v1';
+let ST={theme:null,sound:true,name:'',bestScore:0,bestRight:0,ach:{},plays:0};
+try{const raw=localStorage.getItem(STORE_KEY);if(raw)ST=Object.assign(ST,JSON.parse(raw));}catch(e){}
+function saveST(){try{localStorage.setItem(STORE_KEY,JSON.stringify(ST));}catch(e){}}
+
+/* ============ الشارات ============ */
+const ACHS=[
+  {id:'first',ico:'⛵',name:'أول إبحار',desc:'العب جولة واحدة من جزيرة الكنز'},
+  {id:'captain',ico:'🎖️',name:'قبطان التقريب',desc:'احصل على ٣ نجوم في اللعبة'},
+  {id:'streak5',ico:'🔥',name:'سلسلة ٥',desc:'أجب ٥ إجابات صحيحة متتالية'},
+  {id:'perfect',ico:'🏆',name:'الدرجة الكاملة',desc:'أجب على كل أسئلة التقويم بشكل صحيح'},
+  {id:'machine',ico:'⚙️',name:'عالم الآلة',desc:'استخدم «جرّب بنفسك» في آلة التقريب'},
+  {id:'explorer',ico:'🧭',name:'مستكشف',desc:'جرّب كل أوضاع تلّة التقريب الثلاثة'},
+];
+function achGrid(){
+  $('achGrid').innerHTML=ACHS.map(a=>`<div class="ach ${ST.ach[a.id]?'unlocked':''}" data-ach="${a.id}">
+    <span class="ico">${a.ico}</span><b>${a.name}</b><small>${a.desc}</small></div>`).join('');
+}
+function unlock(id){
+  if(ST.ach[id])return;
+  ST.ach[id]=true;saveST();
+  const a=ACHS.find(x=>x.id===id);
+  achGrid();
+  toast(`${a.ico} فتحت شارة: ${a.name}!`);
+  confetti(30);
+}
+function toast(msg,dur=3200){
+  const t=$('toast');t.innerHTML=msg;t.classList.add('show');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),dur);
+}
+function confetti(n=60){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const c=document.createElement('div');c.className='confetti';document.body.appendChild(c);
+  const colors=['#FFC23D','#E14E36','#0D6FB0','#1A8F63','#FF7A63'];
+  for(let i=0;i<n;i++){
+    const el=document.createElement('i');
+    el.style.left=Math.random()*100+'%';
+    el.style.background=colors[Math.floor(Math.random()*colors.length)];
+    el.style.animationDelay=(Math.random()*0.5)+'s';
+    el.style.animationDuration=(2+Math.random()*1.5)+'s';
+    c.appendChild(el);
+  }
+  setTimeout(()=>c.remove(),4500);
+}
+
+/* ============ الوضع الليلي/النهاري ============ */
+function applyTheme(){
+  if(ST.theme)document.documentElement.setAttribute('data-theme',ST.theme);
+  else document.documentElement.removeAttribute('data-theme');
+  const dark=ST.theme==='dark'||(!ST.theme&&matchMedia('(prefers-color-scheme:dark)').matches);
+  $('themeBtn').textContent=dark?'☀️':'🌙';
+}
+$('themeBtn').onclick=()=>{
+  const dark=ST.theme==='dark'||(!ST.theme&&matchMedia('(prefers-color-scheme:dark)').matches);
+  ST.theme=dark?'light':'dark';saveST();applyTheme();
+};
+applyTheme();
+
+/* ============ إعادة التعيين ============ */
+$('resetAllBtn').onclick=()=>{
+  if(!confirm('سيتم حذف اسمك، شاراتك، أفضل نتيجة في اللعبة، وإعداداتك. هل تريد المتابعة؟'))return;
+  try{localStorage.removeItem(STORE_KEY);}catch(e){}
+  ST={theme:null,sound:true,name:'',bestScore:0,bestRight:0,ach:{},plays:0};
+  applyTheme();achGrid();
+  $('gSound').setAttribute('aria-pressed','true');$('gSound').textContent='🔊';
+  toast('تمت إعادة تعيين كل البيانات.');
+};
+
+/* ============ الصوت ============ */
+let soundOn=ST.sound,actx=null;
+function beep(ok,kind='normal'){
+  if(!soundOn)return;
+  try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();
+    const o=actx.createOscillator(),g=actx.createGain();o.connect(g);g.connect(actx.destination);
+    const t=actx.currentTime;o.type='triangle';
+    if(ok){
+      if(kind==='combo'){o.frequency.setValueAtTime(660,t);o.frequency.setValueAtTime(880,t+.09);o.frequency.setValueAtTime(1100,t+.18);}
+      else{o.frequency.setValueAtTime(660,t);o.frequency.setValueAtTime(880,t+.1);}
+    }else{o.frequency.setValueAtTime(260,t);o.frequency.setValueAtTime(180,t+.12);}
+    g.gain.setValueAtTime(.18,t);g.gain.exponentialRampToValueAtTime(.001,t+.35);o.start(t);o.stop(t+.36);
+  }catch(e){}
+}
+
+$('readyBtn').onclick=()=>{$('readyAns').hidden=false;$('readyBtn').hidden=true;};
+
+/* ============ تلّة التقريب ============ */
+const MODES={
+  A:{lo:'17000',hi:'18000',mid:'17500',build:k=>'17'+k+'18',t:k=>(k*100+18)/1000,u:1,pk:2,def:8},
+  B:{lo:'46.7',hi:'46.8',mid:'46.75',build:k=>'46.7'+k,t:k=>k/10,u:3,pk:4,def:3},
+  C:{lo:'40',hi:'50',mid:'45',build:k=>'4'+k,t:k=>k/10,u:0,pk:1,def:7}
+};
+let mode='A',ballT=0,anim=null,hillTried={};
+const X0=60,X1=540,BASE=180,PEAK=58;
+const hx=t=>X0+t*(X1-X0), hy=t=>BASE-(BASE-PEAK)*Math.sin(Math.PI*t);
+function drawHill(){
+  const m=MODES[mode];let d='M'+X0+','+BASE;
+  for(let s=0;s<=60;s++){const t=s/60;d+=' L'+hx(t).toFixed(1)+','+hy(t).toFixed(1);}
+  let ticks='';for(let k=0;k<=10;k++){const x=hx(k/10);ticks+=`<line x1="${x}" y1="${BASE+6}" x2="${x}" y2="${BASE+(k%5?14:20)}" stroke="var(--ink)" stroke-width="${k%5?2:3}"/>`;}
+  const F='font-family="Baloo Bhaijaan 2, Tajawal, sans-serif"';
+  $('hillSvg').innerHTML=`
+    <path d="${d} L${X1},${BASE+4} L${X0},${BASE+4}Z" fill="var(--ground)" stroke="var(--ground-line)" stroke-width="3"/>
+    <line x1="${X0-20}" y1="${BASE+6}" x2="${X1+20}" y2="${BASE+6}" stroke="var(--ink)" stroke-width="3"/>
+    ${ticks}
+    <text x="${hx(.5)}" y="${PEAK-18}" text-anchor="middle" direction="rtl" ${F} font-weight="700" font-size="16" fill="var(--muted)">القمة ${ar(m.mid)}</text>
+    <line x1="${hx(.5)}" y1="${PEAK-12}" x2="${hx(.5)}" y2="${BASE+6}" stroke="var(--muted)" stroke-dasharray="5 5"/>
+    <text id="tLo" x="${X0}" y="${BASE+44}" text-anchor="middle" ${F} font-weight="800" font-size="22" fill="var(--ink)">${ar(m.lo)}</text>
+    <text id="tHi" x="${X1}" y="${BASE+44}" text-anchor="middle" ${F} font-weight="800" font-size="22" fill="var(--ink)">${ar(m.hi)}</text>
+    <g id="ball"><circle r="15" fill="var(--coral)" stroke="var(--ink)" stroke-width="2"/><path d="M-15 0 A15 15 0 0 0 15 0" fill="none" stroke="#fff" stroke-width="3"/></g>`;
+  placeBall(ballT,0);
+}
+function placeBall(t,rot){const b=$('ball');if(b)b.setAttribute('transform',`translate(${hx(t).toFixed(1)},${(hy(t)-16).toFixed(1)}) rotate(${rot||0})`);}
+function updateHill(){
+  const m=MODES[mode],k=+$('hillRange').value;
+  $('hillNum').innerHTML=digitsHTML(m.build(k),m.u,m.pk);
+  if(anim)cancelAnimationFrame(anim);
+  ballT=m.t(k);placeBall(ballT,0);$('hillVerdict').textContent='';
+  ['tLo','tHi'].forEach(id=>$(id).setAttribute('fill','var(--ink)'));
+}
+function setMode(md){
+  mode=md;document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.mode===md));
+  $('hillRange').value=MODES[md].def;drawHill();updateHill();
+  hillTried[md]=true;
+  if(hillTried.A&&hillTried.B&&hillTried.C)unlock('explorer');
+}
+document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
+$('hillRange').oninput=updateHill;
+$('dropBtn').onclick=()=>{
+  const m=MODES[mode],k=+$('hillRange').value,num=m.build(k),up=k>=5;
+  const from=ballT,to=up?1:0,start=performance.now(),dur=matchMedia('(prefers-reduced-motion: reduce)').matches?1:900;
+  if(anim)cancelAnimationFrame(anim);
+  const step=now=>{const p=Math.min(1,(now-start)/dur),e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
+    const t=from+(to-from)*e;placeBall(t,(t-from)*720);
+    if(p<1)anim=requestAnimationFrame(step);else{
+      ballT=to;$(up?'tHi':'tLo').setAttribute('fill','var(--kelp)');
+      $('hillVerdict').innerHTML=(up?`الرقم ${AR[k]} هو ٥ أو أكبر، فتدحرجت الكرة إلى العدد الأكبر: `:`الرقم ${AR[k]} أصغر من ٥، فعادت الكرة إلى العدد الأصغر: `)+`<span class="num">${ar(num)} ≈ ${ar(up?m.hi:m.lo)}</span>`;
+      beep(true);
+    }};
+  anim=requestAnimationFrame(step);
+};
+setMode('A');
+
+/* ============ آلة التقريب ============ */
+let mStr='17818',mP=3,mStep=0,mMode='watch',mMsg='',mMsgOk=true;
+const MPLACES=[3,2,1,0,-1,-2];
+function validPlaces(str){const {i,d}=parts(str);return MPLACES.filter(p=>p<=i.length-1&&p>-d);}
+function renderPlaces(){
+  const vp=validPlaces(mStr);
+  if(!vp.includes(mP))mP=vp.length?vp[0]:null;
+  $('placeChips').innerHTML=MPLACES.map(p=>`<button class="chip" data-pl="${p}" aria-pressed="${p===mP}" ${vp.includes(p)?'':'disabled'}>${PN[p]}</button>`).join('');
+  $('placeChips').querySelectorAll('button').forEach(b=>b.onclick=()=>{mP=+b.dataset.pl;resetM();});
+}
+function resetM(){mStep=0;mMsg='';renderPlaces();renderMachine();}
+function renderMachine(){
+  const steps=$('mSteps'),task=$('mTask');
+  if(mP==null||!isNum(mStr)){
+    $('mDisplay').innerHTML=mStr?'<span style="font-size:20px;color:var(--coral)">اكتب عددًا فيه رقم بعد المنزلة المختارة</span>':'';
+    steps.innerHTML='';task.hidden=true;$('mResult').textContent='';$('mLine').hidden=true;$('mNext').disabled=true;return;}
+  const u=idxOf(mStr,mP),pk=nextIdx(mStr,u),r=roundInfo(mStr,mP);
+  const ud=mStr[u],pd=mStr[pk],big=+pd>=5,hasDec=parts(mStr).d>0;
+  const tryMode=mMode==='try';
+  $('mNext').hidden=tryMode;$('mNext').disabled=mStep>=4;
+  if(tryMode&&mStep<2){
+    $('mDisplay').innerHTML=mStr.split('').map((c,k)=>c==='.'?'<span class="dg">٫</span>':`<button class="dg ${k===u&&mStep>=1?'under':''}" data-k="${k}" aria-label="الرقم ${AR[c]}">${AR[c]}</button>`).join('');
+    $('mDisplay').querySelectorAll('button.dg').forEach(b=>b.onclick=()=>digitClick(+b.dataset.k,b));
+  }else $('mDisplay').innerHTML=digitsHTML(mStr,mStep>=1?u:-1,mStep>=2?pk:-1);
+  const lastTxt=mP>0||!hasDec?(hasDec?'بدّل الأرقام الصحيحة الواقعة عن يمينه بأصفار، واحذف الأرقام العشرية.':'بدّل كل الأرقام الواقعة عن يمينه بأصفار.'):'احذف الأرقام الواقعة عن يمينه.';
+  const carry=big&&ud==='9'?`<span class="carry">٩ + ١ = ١٠، فنكتب ٠ ونحمل ١ إلى المنزلة التي على اليسار.</span>`:'';
+  const items=[
+    `ضع خطًّا تحت الرقم في منزلة <b>${PN[mP]}</b>: إنه الرقم <b class="num">${AR[ud]}</b>.`,
+    `انظر إلى الرقم الواقع عن يمينه مباشرة: إنه <b class="num" style="color:var(--coral)">${AR[pd]}</b>.`,
+    (big?`الرقم <b class="num">${AR[pd]}</b> هو ٥ أو أكبر، إذن أضف ١ إلى الرقم الذي تحته خط.`:`الرقم <b class="num">${AR[pd]}</b> أصغر من ٥، إذن لا تغيّر الرقم الذي تحته خط.`)+carry,
+    lastTxt
+  ];
+  steps.innerHTML=items.map((t,k)=>`<li class="${k<mStep?'on':''}"><span class="n">${AR[k+1]}</span><div>${t}</div></li>`).join('');
+  if(tryMode&&mStep<4){
+    task.hidden=false;
+    const prompts=[`انقر الرقم الموجود في منزلة <b>${PN[mP]}</b>.`,'انقر الرقم الواقع عن يمين الرقم الذي تحته خط.','ماذا نفعل بالرقم الذي تحته خط؟','اكتب العدد بعد التقريب.'];
+    let ctl='';
+    if(mStep===2)ctl=`<div class="ctrl"><button class="btn alt" id="tAdd">أضيف ١</button><button class="btn alt" id="tKeep">لا أغيّر</button></div>`;
+    if(mStep===3)ctl=`<div class="ctrl"><input id="tAns" class="field" inputmode="decimal" maxlength="16" autocomplete="off" aria-label="العدد بعد التقريب"><button class="btn alt" id="tCheck">تحقّق</button></div>`;
+    task.innerHTML=`<p>${prompts[mStep]}</p>${ctl}<p class="msg ${mMsgOk?'ok':'no'}" aria-live="polite">${mMsg}</p>`;
+    if(mStep===2){$('tAdd').onclick=()=>decide(true,big);$('tKeep').onclick=()=>decide(false,big);}
+    if(mStep===3){const inp=$('tAns');inp.focus();const chk=()=>checkTry(inp.value,r);$('tCheck').onclick=chk;inp.onkeydown=e=>{if(e.key==='Enter')chk();};}
+  }else if(tryMode){task.hidden=false;task.innerHTML=`<p class="msg ok">أحسنت! حللت الخطوات الأربع بنفسك. اختر عددًا آخر وجرّب مرة أخرى.</p>`;}
+  else task.hidden=true;
+  if(mStep>=4){
+    $('mResult').innerHTML=`<span class="num">${ar(mStr)} ≈ ${ar(r.ans)}</span>`;
+    const L=$('mLine');L.hidden=false;
+    L.innerHTML=`<div class="bar"></div><div class="tick" style="left:0%"></div><div class="tick mid" style="left:50%"></div><div class="tick" style="left:100%"></div>
+      <span class="end ${r.up?'':'win'}" style="left:0%">${ar(r.lo)}</span><span class="end ${r.up?'win':''}" style="left:100%">${ar(r.hi)}</span>
+      <span class="pin" style="left:${(r.frac*100).toFixed(1)}%"></span>`;
+  }else{$('mResult').textContent='';$('mLine').hidden=true;}
+}
+function digitClick(k,btn){
+  const u=idxOf(mStr,mP),pk=nextIdx(mStr,u);
+  if(mStep===0){
+    if(k===u){mStep=1;mMsg='صحيح! وضعنا خطًّا تحته.';mMsgOk=true;beep(true);}
+    else{mMsg=`هذا الرقم في منزلة ${PN[placeAt(mStr,k)]}. ابحث عن منزلة ${PN[mP]}.`;mMsgOk=false;beep(false);}
+  }else if(mStep===1){
+    if(k===pk){mStep=2;mMsg='صحيح! هذا هو الرقم الذي نقرّر به.';mMsgOk=true;beep(true);}
+    else{mMsg='انظر إلى الرقم المجاور مباشرة عن يمين الرقم الذي تحته خط.';mMsgOk=false;beep(false);}
+  }
+  renderMachine();
+}
+function decide(add,big){
+  if(add===big){mStep=3;mMsg=big?'صحيح، لأن الرقم ٥ أو أكبر.':'صحيح، لأن الرقم أصغر من ٥.';mMsgOk=true;beep(true);}
+  else{mMsg=big?'انظر مرة أخرى: الرقم ٥ أو أكبر، فالكرة تعبر القمة.':'انظر مرة أخرى: الرقم أصغر من ٥، فالكرة لا تصل إلى القمة.';mMsgOk=false;beep(false);}
+  renderMachine();
+}
+function checkTry(v,r){
+  const s=norm(v);
+  if(!isNum(s)){mMsg='اكتب عددًا بالأرقام.';mMsgOk=false;renderMachine();return;}
+  if(canon(s)===canon(r.ans)){
+    const extra=parts(s).d>parts(r.ans).d;
+    mStep=4;mMsg=extra?'القيمة صحيحة، لكن نحذف الأرقام بعد المنزلة المطلوبة.':'';mMsgOk=true;beep(true);
+  }else{mMsg='ليس بعد. راجع الخطوة ٤: بدّل الأرقام عن اليمين بأصفار أو احذفها.';mMsgOk=false;beep(false);}
+  renderMachine();
+}
+function setMMode(md){mMode=md;$('modeWatch').setAttribute('aria-pressed',md==='watch');$('modeTry').setAttribute('aria-pressed',md==='try');resetM();}
+$('modeWatch').onclick=()=>setMMode('watch');
+$('modeTry').onclick=()=>{setMMode('try');unlock('machine');};
+$('mNum').oninput=e=>{mStr=norm(e.target.value);resetM();};
+$('mNext').onclick=()=>{if(mStep<4){mStep++;renderMachine();}};
+$('mReset').onclick=()=>{mStep=0;mMsg='';renderMachine();};
+document.querySelectorAll('[data-ex]').forEach(b=>b.onclick=()=>{mStr=b.dataset.ex;mP=+b.dataset.p;$('mNum').value=ar(mStr);resetM();});
+$('mNum').value=ar(mStr);resetM();
+
+/* ============ اللعبة ============ */
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+function genRound(r){
+  let s,p;
+  switch(r){
+    case 0:do{s=String(rnd(11,99));}while(+s%10===0);p=1;break;
+    case 1:s=String(rnd(1,9)*10+5);p=1;break;
+    case 2:do{s=String(rnd(101,999));}while(+s%100===0);p=2;break;
+    case 3:s=String(900+rnd(5,9)*10+rnd(0,9));p=2;break;
+    case 4:do{s=String(rnd(1001,99999));}while(+s%1000===0);p=3;break;
+    case 5:s=String(rnd(1,9)*10000+9000+rnd(5,9)*100+rnd(0,99));p=3;break;
+    case 6:s=rnd(1,99)+'.'+rnd(1,9)+rnd(1,9);p=-1;break;
+    case 7:s=rnd(1,98)+'.9'+rnd(5,9);p=-1;break;
+    case 8:s=rnd(1,60)+'.'+rnd(0,9)+rnd(1,9)+rnd(1,9);p=-2;break;
+    default:s=rnd(1,99)+'.'+rnd(1,9)+rnd(1,9);p=0;
+  }
+  const c={s,p,...roundInfo(s,p)};
+  c.opts=[{v:c.lo,ok:!c.up},{v:c.hi,ok:c.up}];
+  if(r>=4){
+    const {i,d}=parts(s);let trap=null;
+    const tries=[];
+    if(p+1<=i.length-1)tries.push([roundInfo(s,p+1).ans,`هذا تقريب إلى ${PA[p+1]}، والمطلوب ${PA[p]}.`]);
+    if(p-1>-d)tries.push([roundInfo(s,p-1).ans,`هذا تقريب إلى ${PA[p-1]}، والمطلوب ${PA[p]}.`]);
+    tries.push([c.up?c.above:c.below,'هذا العدد أبعد من الجارين القريبين.']);
+    tries.push([c.above,'هذا العدد أبعد من الجارين القريبين.']);
+    for(const [v,why] of tries){if(v&&canon(v)!==canon(c.lo)&&canon(v)!==canon(c.hi)&&canon(v)!==canon(s)){trap={v,ok:false,why};break;}}
+    if(trap)c.opts.push(trap);
+  }
+  c.opts.sort((a,b)=>Number(a.v)-Number(b.v));
+  return c;
+}
+const ISL=(flip)=>`<svg viewBox="0 0 200 110" aria-hidden="true"><ellipse cx="100" cy="98" rx="98" ry="14" fill="var(--sea)" opacity=".25"/><path d="M8 100 Q60 40 100 44 Q150 40 192 100Z" fill="var(--ground)" stroke="var(--ground-line)" stroke-width="3"/><g transform="${flip?'translate(200,0) scale(-1,1)':''}"><path d="M118 52 L120 20" stroke="var(--ground-line)" stroke-width="4"/><path d="M120 20 Q100 14 92 26 M120 20 Q140 12 148 24 M120 20 Q118 4 108 2" stroke="var(--kelp)" stroke-width="5" fill="none" stroke-linecap="round"/></g></svg>`;
+let g={r:0,score:0,right:0,streak:0,cur:null,locked:true,t0:0,timer:null},noTime=false,lastGame=null;
+const limit=r=>r>=6?30000:20000;
+function gUpdateBest(){
+  if(ST.bestScore>0)$('gBest').textContent=`أفضل نتيجة سابقة: ${ar(ST.bestScore)} نقطة (${ar(ST.bestRight)}/١٠)`;
+  else $('gBest').textContent='';
+}
+function gStart(){
+  g={r:0,score:0,right:0,streak:0,cur:null,locked:true,timer:null};
+  $('gStart').hidden=true;$('gEnd').hidden=true;$('gTimerBox').style.visibility=noTime?'hidden':'visible';
+  $('gTimerSec').style.visibility=noTime?'hidden':'visible';
+  $('gCombo').classList.add('hide');
+  ST.plays=(ST.plays||0)+1;saveST();
+  if(ST.plays>=1)unlock('first');
+  gNext();
+}
+function gNext(){
+  if(g.r>=10)return gFinish();
+  const c=g.cur=genRound(g.r);
+  $('gRound').textContent=ar(g.r+1);$('gScore').textContent=ar(g.score);$('gRight').textContent=ar(g.right);
+  $('gQ').innerHTML=`قرّب <span class="num">${ar(c.s)}</span> إلى ${PA[c.p]}`;
+  $('isles').innerHTML=c.opts.map((o,k)=>`<button class="island" data-k="${k}" aria-label="الجزيرة ${ar(o.v)}">${ISL(k%2)}<span class="lbl">${ar(o.v)}</span></button>`).join('');
+  $('isles').querySelectorAll('.island').forEach(b=>b.onclick=()=>gAnswer(+b.dataset.k));
+  $('boatNum').textContent=ar(c.s);
+  const boat=$('boat');boat.style.transition='none';boat.style.left='50%';boat.classList.remove('landed');boat.offsetWidth;boat.style.transition='';
+  $('gFb').innerHTML='';g.locked=false;g.t0=performance.now();
+  clearInterval(g.timer);if(!noTime){g.timer=setInterval(tick,100);tick();}
+}
+function tick(){
+  const elapsed=performance.now()-g.t0,left=Math.max(0,1-elapsed/limit(g.r));
+  const secLeft=Math.max(0,Math.ceil((limit(g.r)-elapsed)/1000));
+  $('gTimer').style.transform=`scaleX(${left})`;
+  $('gTimer').style.background=left<.3?'var(--coral)':'var(--sun)';
+  $('gTimerSec').textContent=ar(secLeft);
+  if(left<=0&&!g.locked)gAnswer(null);
+}
+function sailTo(k){
+  const b=$('isles').children[k],sea=$('sea');if(!b)return;
+  const x=(b.offsetLeft+$('isles').offsetLeft+b.offsetWidth/2)/sea.clientWidth*100;
+  const boat=$('boat');boat.style.left=x+'%';boat.classList.add('landed');
+}
+function comboMult(streak){return streak>=5?2:streak>=3?1.5:1;}
+function gAnswer(k){
+  if(g.locked)return;g.locked=true;clearInterval(g.timer);
+  const c=g.cur,okIdx=c.opts.findIndex(o=>o.ok),ok=k===okIdx;
+  const u=idxOf(c.s,c.p),pk=nextIdx(c.s,u);
+  const why=rule(c.s[pk],c.up)+'.';
+  $('boatNum').innerHTML=digitsHTML(c.s,u,pk);
+  const isl=$('isles').children,boat=$('boat');
+  if(k!==null)sailTo(k);
+  if(ok){
+    const bonus=(!noTime&&g.r<6)?Math.round(10*Math.max(0,1-(performance.now()-g.t0)/limit(g.r))):0;
+    g.streak++;
+    const mult=comboMult(g.streak);
+    const base=10+bonus+(g.streak>=3?5:0);
+    const pts=Math.round(base*mult);
+    g.right++;g.score+=pts;
+    isl[okIdx].classList.add('good');
+    beep(true,mult>1?'combo':'normal');
+    const comboTag=mult>1?` <span class="combo">سلسلة ×${ar(mult)}</span>`:'';
+    $('gFb').innerHTML=`<span class="ok">أحسنت! +${ar(pts)} نقطة.</span>${comboTag} ${why}`;
+    if(g.streak>=5)unlock('streak5');
+  }else{
+    g.streak=0;beep(false);
+    let extra='';
+    if(k!==null){isl[k].classList.add('bad');boat.classList.remove('shake');boat.offsetWidth;boat.classList.add('shake');if(c.opts[k].why)extra=' '+c.opts[k].why;}
+    setTimeout(()=>{sailTo(okIdx);isl[okIdx].classList.add('good');},k===null?0:700);
+    $('gFb').innerHTML=`<span class="no">${k===null?'انتهى الوقت!':'ليس هذه المرة.'}</span>${extra} الإجابة <span class="num">${ar(c.ans)}</span>. ${why}`;
+  }
+  $('gScore').textContent=ar(g.score);$('gRight').textContent=ar(g.right);
+  // السلسلة الحالية
+  if(g.streak>=2){$('gCombo').classList.remove('hide');$('gCombo').textContent=`سلسلة ×${ar(g.streak)}`;}
+  else $('gCombo').classList.add('hide');
+  g.r++;setTimeout(gNext,ok?2000:3600);
+}
+function gFinish(){
+  clearInterval(g.timer);
+  const st=g.right>=9?3:g.right>=7?2:g.right>=5?1:0;
+  lastGame={right:g.right,score:g.score};
+  // أفضل نتيجة
+  if(g.score>ST.bestScore||(g.score===ST.bestScore&&g.right>ST.bestRight)){
+    ST.bestScore=g.score;ST.bestRight=g.right;saveST();
+  }
+  if(st===3)unlock('captain');
+  $('gStars').innerHTML=[0,1,2].map(k=>`<span class="${k<st?'':'off'}">★</span>`).join('');
+  $('gEndStats').innerHTML=`
+    <div>صحيحة <b>${ar(g.right)}/١٠</b></div>
+    <div>النقاط <b>${ar(g.score)}</b></div>
+    <div>الأفضل <b>${ar(ST.bestScore)}</b></div>`;
+  $('gEndTxt').innerHTML=`${st===3?'قبطان التقريب!':st===2?'بحّار ماهر! انتبه للجزيرة الفخّ.':'تدرّب في «جرّب بنفسك» ثم أعد المحاولة.'}`;
+  $('gEnd').hidden=false;
+  if(st===3)confetti(120);
+  gUpdateBest();
+}
+$('gGo').onclick=gStart;$('gAgain').onclick=gStart;
+$('gTimeMode').onclick=e=>{noTime=!noTime;e.target.setAttribute('aria-pressed',noTime);};
+$('gSound').onclick=e=>{
+  soundOn=!soundOn;ST.sound=soundOn;saveST();
+  e.target.setAttribute('aria-pressed',soundOn);e.target.textContent=soundOn?'🔊':'🔇';
+};
+if(!soundOn){$('gSound').setAttribute('aria-pressed','false');$('gSound').textContent='🔇';}
+gUpdateBest();
+// اختصارات لوحة المفاتيح للعبة
+document.addEventListener('keydown',e=>{
+  if($('gameBox').getBoundingClientRect().top>window.innerHeight||$('gameBox').getBoundingClientRect().bottom<0)return;
+  if(!g.locked&&/^[1-3]$/.test(e.key)){const k=+e.key-1;if($('isles').children[k])gAnswer(k);}
+});
+
+/* ============ التقويم ============ */
+const N=s=>`<span class="num">${s}</span>`;
+const TAGS={
+ dir:['اتجاه التقريب','نضيف ١ فقط إذا كان الرقم الواقع عن اليمين ٥ أو أكبر، ولا نغيّر إذا كان أصغر من ٥.'],
+ five:['الرقم ٥','الرقم ٥ يعني دائمًا أن نضيف ١، فالكرة على القمة تنزل إلى العدد الأكبر.'],
+ place:['اختيار المنزلة','ضع خطًّا تحت المنزلة المطلوبة قبل أي خطوة.'],
+ carry:['الحمل','٩ + ١ = ١٠: نكتب ٠ ونحمل ١ إلى المنزلة التي على اليسار.'],
+ zeros:['الأصفار والحذف','في الأعداد الكلية نبدّل الأرقام بأصفار، وفي الكسور العشرية نحذفها.'],
+ digit:['الرقم المجاور','ننظر إلى رقم واحد فقط: المجاور مباشرة للرقم الذي تحته خط.'],
+ mix:['المنازل العشرية','أول رقم بعد الفاصلة أجزاء من عشرة، والثاني أجزاء من مئة.'],
+ noround:['لم يقرّب','التقريب يعطي عددًا أسهل من العدد الأصلي.'],
+ context:['مواقف التقريب','الأرقام التي تحتاج دقة، مثل رقم الهاتف والمبلغ والدواء، لا نقرّبها.'],
+ other:['أخطاء أخرى','راجع الخطوات الأربع في آلة التقريب.']
+};
+const PARTS={A:'الجزء أ: اختر الإجابة',B:'الجزء ب: اكتب الإجابة',C:'الجزء ج: فكّر وحلّل'};
+const mc=(part,q,o,e)=>({t:'mc',part,q,o,e});
+const inq=(part,q,num,p)=>({t:'in',part,q,num,p});
+const QUIZ=[
+ mc('A',`قرّب ${uNum('42',1)} إلى المنزلة التي تحتها خط.`,[['٤٠'],['٥٠','dir'],['٤٢','noround'],['٤','zeros']],'الرقم ٤ في منزلة العشرات، والرقم الواقع عن يمينه ٢ أصغر من ٥، فلا نغيّر ٤ ونبدّل رقم الآحاد بصفر: ٤٠.'),
+ mc('A',`قرّب ${uNum('5729',2)} إلى المنزلة التي تحتها خط.`,[['٥٧٠٠'],['٥٨٠٠','digit'],['٦٠٠٠','place'],['٥٧٣٠','place']],'الرقم الواقع عن يمين ٧ هو ٢، وهو أصغر من ٥، فالجواب ٥٧٠٠. لا ننظر إلى ٩ لأنه ليس المجاور مباشرة.'),
+ mc('A',`قرّب ${uNum('1096',1)} إلى المنزلة التي تحتها خط.`,[['١١٠٠'],['١٠٩٠','dir'],['١٠٠٠','carry'],['١٠١٠٠','carry']],'الرقم ٩ في منزلة العشرات، والرقم الواقع عن يمينه ٦ وهو ٥ أو أكبر. ٩ + ١ = ١٠، فنكتب ٠ ونحمل ١ إلى المئات: ١١٠٠.'),
+ mc('A',`قرّب ${uNum('5750',2)} إلى المنزلة التي تحتها خط.`,[['٥٨٠٠'],['٥٧٠٠','five'],['٦٠٠٠','place'],['٥٧٥٠','noround']],'الرقم الواقع عن يمين ٧ هو ٥، والقاعدة: ٥ أو أكبر نضيف ١. الجواب ٥٨٠٠.'),
+ mc('A',`قرّب ${uNum('106950',2)} إلى المنزلة التي تحتها خط.`,[['١٠٧٠٠٠'],['١٠٦٩٠٠','five'],['١٠٦٠٠٠','carry'],['١٠٧٩٥٠','zeros']],'الرقم الواقع عن يمين ٩ هو ٥ فنضيف ١. ٩ + ١ = ١٠، فنكتب ٠ ونحمل ١ إلى الآلاف فيصبح ٦ سبعة: ١٠٧٠٠٠.'),
+ mc('A',`قرّب ${N('٢٨٫٦')} إلى أقرب عدد كلي (الآحاد).`,[['٢٩'],['٢٨','dir'],['٣٠','place'],['٢٨٫٧','mix']],'الرقم ٨ في منزلة الآحاد، والرقم الواقع عن يمينه ٦ وهو ٥ أو أكبر، فيصبح ٨ تسعة ونحذف الكسر: ٢٩.'),
+ mc('A',`قرّب ${N('٤٫٣٥')} إلى أقرب جزء من عشرة.`,[['٤٫٤'],['٤٫٣','five'],['٤','place'],['٤٫٣٦','mix']],'الرقم الواقع عن يمين ٣ هو ٥، و٥ تعني أن نضيف ١: ٤٫٤.'),
+ mc('A',`قرّب ${N('٠٫٠٥٣')} إلى أقرب جزء من مئة.`,[['٠٫٠٥'],['٠٫٠٦','dir'],['٠٫١','place'],['٠٫٥٣','mix']],'في منزلة أجزاء من مئة الرقم ٥، والرقم الواقع عن يمينه ٣ أصغر من ٥، فنحذفه: ٠٫٠٥.'),
+ mc('A',`قرّب ${N('٥٧٫٠٠٩')} إلى أقرب جزء من مئة.`,[['٥٧٫٠١'],['٥٧٫٠٠','dir'],['٥٧٫١','place'],['٥٧٫٠٩','mix']],'في منزلة أجزاء من مئة الرقم ٠، والرقم الواقع عن يمينه ٩، فيصبح ٠ واحدًا: ٥٧٫٠١.'),
+ mc('A',`قرّب ${N('١١٠٫٠٧٩')} إلى أقرب جزء من مئة.`,[['١١٠٫٠٨'],['١١٠٫٠٧','dir'],['١١٠٫١','place'],['١١٠','place']],'في منزلة أجزاء من مئة الرقم ٧، والرقم الواقع عن يمينه ٩ وهو ٥ أو أكبر، فيصبح ٧ ثمانية: ١١٠٫٠٨.'),
+ mc('A',`تبلغ مساحة صحراء النفود ${N('٥٦٫٣٢')} ألف كلم². ما مساحتها مقرّبة إلى أقرب جزء من عشرة؟`,[['٥٦٫٣'],['٥٦٫٤','dir'],['٥٦','place'],['٥٦٫٣٢','noround']],'الرقم الواقع عن يمين ٣ هو ٢، وهو أصغر من ٥، فنحذفه: ٥٦٫٣.'),
+ mc('A',`مسافة سباق درّاجات ${N('٣٣٧٤')} مترًا. قرّبها إلى أقرب مئة متر.`,[['٣٤٠٠'],['٣٣٠٠','dir'],['٣٣٧٠','place'],['٣٠٠٠','place']],'في منزلة المئات الرقم ٣، والرقم الواقع عن يمينه ٧ وهو ٥ أو أكبر، فالجواب ٣٤٠٠ متر.'),
+ inq('B',`قرّب ${uNum('19',1)} إلى المنزلة التي تحتها خط.`,'19',1),
+ inq('B',`قرّب ${uNum('735',2)} إلى المنزلة التي تحتها خط.`,'735',2),
+ inq('B',`قرّب ${uNum('681',1)} إلى المنزلة التي تحتها خط.`,'681',1),
+ inq('B',`قرّب ${uNum('3705',2)} إلى المنزلة التي تحتها خط.`,'3705',2),
+ inq('B',`قرّب ${uNum('24921',3)} إلى المنزلة التي تحتها خط.`,'24921',3),
+ inq('B',`قرّب ${uNum('692300',4)} إلى المنزلة التي تحتها خط.`,'692300',4),
+ inq('B',`قرّب ${N('٨٫١٧')} إلى أقرب جزء من عشرة.`,'8.17',-1),
+ inq('B',`قرّب ${N('٦٧٫١٤٢')} إلى الآحاد.`,'67.142',0),
+ inq('B',`قرّب ${N('٣٦٫٨١')} إلى الآحاد.`,'36.81',0),
+ inq('B',`قرّب ${N('٤٫٣٢')} إلى أقرب جزء من عشرة.`,'4.32',-1),
+ inq('B',`وزن شخص على القمر ${N('٦٩٫٦٦')} نيوتن. قرّبه إلى أقرب جزء من عشرة.`,'69.66',-1),
+ inq('B',`وزن الشخص نفسه على المريخ ${N('١٥٩٫١٢')} نيوتن. قرّبه إلى أقرب جزء من عشرة.`,'159.12',-1),
+ mc('C',`كتلة الفيل الإفريقي بين ${N('٤٫٤')} و ${N('٧٫٧')} أطنان. قرّب أقل كتلة وأكبر كتلة إلى أقرب طن.`,[['٤ و ٨'],['٤ و ٧','dir'],['٥ و ٨','dir'],['٥ و ٧','dir']],'في ٤٫٤ الرقم الواقع عن اليمين ٤ أصغر من ٥ فتصبح ٤، وفي ٧٫٧ الرقم ٧ هو ٥ أو أكبر فتصبح ٨.'),
+ mc('C',`وزن الشخص على المشتري ${N('١٠٦٥٫٩٣')} نيوتن. قرّبه إلى أقرب مئة.`,[['١١٠٠'],['١٠٠٠','dir'],['١٠٧٠','place'],['١٠٦٦','place']],'في منزلة المئات الرقم ٠، والرقم الواقع عن يمينه ٦ وهو ٥ أو أكبر، فالجواب ١١٠٠.'),
+ mc('C',`وزنه على المريخ ${N('١٥٩٫١٢')} نيوتن. قرّبه إلى أقرب عشرة.`,[['١٦٠'],['١٥٠','dir'],['١٥٩','place'],['٢٠٠','place']],'في منزلة العشرات الرقم ٥، والرقم الواقع عن يمينه ٩ وهو ٥ أو أكبر، فالجواب ١٦٠.'),
+ mc('C',`قرّب خالد العدد ${N('٣٧٠٥')} إلى أقرب مئة فكتب ${N('٣٨٠٠')}. ما خطؤه؟`,[['نظر إلى الرقم ٥، والصحيح أن ينظر إلى ٠ الواقع عن يمين المئات مباشرة'],['نسي أن يكتب الأصفار','zeros'],['قرّب إلى أقرب ألف','place'],['لا يوجد خطأ، إجابته صحيحة','digit']],'الرقم الواقع عن يمين ٧ هو ٠، وهو أصغر من ٥، فالجواب الصحيح ٣٧٠٠.'),
+ mc('C',`قرّبت ريم العدد ${N('٨٫١٧')} إلى أقرب جزء من عشرة فكتبت ${N('٨٫٢٠')}. ما رأيك؟`,[['القيمة صحيحة، لكن نحذف الأرقام بعد المنزلة فنكتب ٨٫٢'],['خطأ، والصحيح ٨٫١','dir'],['صحيحة تمامًا ولا تحتاج تعديلًا','zeros'],['خطأ، والصحيح ٨','place']],'عند تقريب الكسور العشرية نحذف الأرقام الواقعة عن يمين المنزلة المطلوبة، فنكتب ٨٫٢.'),
+ mc('C',`الحسّ العددي: قرّب ${N('٩٩٩٩٫٩٩٩')} إلى أقرب جزء من مئة.`,[['١٠٠٠٠٫٠٠'],['٩٩٩٩٫٩٩','dir'],['٩٩٩٩٫٠٠','carry'],['١٠٠٠٠٫٩٩','carry']],'نضيف ١ إلى ٩ فتصبح ١٠، فنحمل ١ إلى المنزلة التالية، ويتكرر الحمل مثل حجارة الدومينو حتى نصل إلى ١٠٠٠٠٫٠٠، وهي تساوي ١٠٠٠٠. يحدث هذا مع أي منزلة نقرّب إليها.'),
+ inq('C',`تحدّث: قرّب ${N('٧٤٫٦٨٥')} إلى أقرب جزء من مئة.`,'74.685',-2),
+ {t:'two',part:'C',q:`مسألة مفتوحة: اكتب عددين مختلفين يُقرَّب كلٌّ منهما إلى ${N('١٨٫٣')} عند التقريب إلى أقرب جزء من عشرة.`,e:'أي عدد من ١٨٫٢٥ إلى أقل من ١٨٫٣٥ يصلح، مثل ١٨٫٢٧ و ١٨٫٣٢.'},
+ mc('C','في أيّ موقف يكون التقريب مقبولًا؟',[['عدد الجمهور في مباراة كرة قدم'],['رقم هاتف صديقك','context'],['المبلغ الذي تدفعه للبائع','context'],['جرعة دواء يصفها الطبيب','context']],'نقول «حضر نحو ٤٠٠٠٠ مشجّع» ولا يتضرر أحد. أما الأرقام التي تحتاج دقة فلا نقرّبها.'),
+ {t:'free',part:'C',q:'اكتب: موقفان من حياتك يكون التقريب فيهما مقبولًا.',e:'أمثلة: المسافة بين جدة والرياض نحو ٩٥٠ كلم. عدد طلاب المدرسة نحو ٥٠٠ طالب. يقرأ المعلم إجابتك ولا تُصحَّح آليًا.'}
+];
+function explainIn(num,p){
+  const r=roundInfo(num,p),u=idxOf(num,p),pk=nextIdx(num,u);
+  const carry=r.up&&num[u]==='9'?' ٩ + ١ = ١٠، فنكتب ٠ ونحمل ١.':'';
+  const tail=p>0||!num.includes('.')?(num.includes('.')?' ثم نبدّل الأرقام الصحيحة عن يمينه بأصفار ونحذف الكسر.':' ثم نبدّل الأرقام عن يمينه بأصفار.'):' ثم نحذف الأرقام عن يمينه.';
+  return `الرقم في منزلة ${PN[p]} هو ${AR[num[u]]}. ${rule(num[pk],r.up)}.${carry}${tail} الجواب ${ar(r.ans)}.`;
+}
+function classifyIn(num,p,v){
+  const r=roundInfo(num,p),u=idxOf(num,p),pk=nextIdx(num,u),cv=canon(v);
+  if(cv===canon(num))return 'noround';
+  if(cv===canon(r.up?r.lo:r.hi))return num[pk]==='5'?'five':'dir';
+  if(p>0&&cv===canon(r.ans).slice(0,-p))return 'zeros';
+  const {i,d}=parts(num);
+  for(let q=i.length-1;q>-d;q--)if(q!==p&&cv===canon(roundInfo(num,q).ans))return 'place';
+  if(r.up&&num[u]==='9')return 'carry';
+  return 'other';
+}
+let qz=null,qHintUsed=false;
+const LET=['أ','ب','ج','د'];
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function qIntro(){
+  const cnt=k=>QUIZ.filter(q=>q.part===k).length;
+  $('quizBox').innerHTML=`<div style="display:grid;gap:14px;justify-items:start">
+    <label for="qName" style="font-weight:700">اكتب اسمك:</label>
+    <input id="qName" class="name-in" autocomplete="off" value="${qz?esc(qz.name):esc(ST.name||'')}">
+    <fieldset class="parts" style="border:0;padding:0;margin:0"><legend style="font-weight:700;margin-bottom:6px">اختر الأجزاء:</legend>
+      ${Object.keys(PARTS).map(k=>`<label><input type="checkbox" id="part${k}" checked> ${PARTS[k]} (${ar(cnt(k))} سؤالًا)</label>`).join('')}
+    </fieldset>
+    <p class="msg" id="qWarn" style="color:var(--coral);font-weight:700"></p>
+    <button class="btn alt" id="qGo">ابدأ التقويم</button></div>`;
+  $('qGo').onclick=()=>{
+    const sel=Object.keys(PARTS).filter(k=>$('part'+k).checked);
+    if(!sel.length){$('qWarn').textContent='اختر جزءًا واحدًا على الأقل.';return;}
+    const name=$('qName').value.trim();
+    ST.name=name;saveST();
+    qz={i:0,score:0,graded:0,wrong:[],tags:{},free:[],name,parts:sel,
+      order:QUIZ.filter(q=>sel.includes(q.part)).map(q=>q.t==='mc'?{...q,perm:shuffle([0,1,2,3])}:{...q})};
+    qShow();
+  };
+}
+function qMark(ok,q,tag,extra){
+  if(q.t!=='free'){qz.graded++;if(ok)qz.score++;else{qz.wrong.push(q);qz.tags[tag]=(qz.tags[tag]||0)+1;}}
+  beep(ok);
+  const ex=$('qEx');ex.hidden=false;
+  const head=q.t==='free'?'<b class="ok">حُفظت إجابتك.</b>':`<b class="${ok?'ok':'no'}">${ok?'إجابة صحيحة!':'إجابة غير صحيحة.'}</b>`;
+  const tagTxt=!ok&&tag&&TAGS[tag]&&tag!=='other'?`<br><b>انتبه (${TAGS[tag][0]}):</b> ${TAGS[tag][1]}`:'';
+  let line='';
+  if(!ok&&q.num!=null){
+    const r=roundInfo(q.num,q.p);
+    line=`<div class="mini-line" style="margin-top:10px"><div class="bar"></div>
+      <span class="end ${r.up?'':'win'}" style="left:0%">${ar(r.lo)}</span>
+      <span class="end ${r.up?'win':''}" style="left:100%">${ar(r.hi)}</span>
+      <span class="pin" style="left:${(r.frac*100).toFixed(1)}%"></span></div>`;
+  }
+  ex.innerHTML=`${head}${extra?' '+extra:''} ${q.e||explainIn(q.num,q.p)}${tagTxt}${line}`;
+  $('qNext').hidden=false;$('qNext').focus();
+}
+function qShow(){
+  const q=qz.order[qz.i],tot=qz.order.length;
+  qHintUsed=false;
+  let body='';
+  if(q.t==='mc'){
+    const long=q.o.some(o=>o[0].length>14);
+    body=`<div class="opts ${long?'long':''}">${q.perm.map((oi,k)=>{const t=q.o[oi][0],isN=/^[٠-٩٫]+$/.test(t);return `<button class="opt" data-oi="${oi}"><span class="k">${LET[k]}</span><span ${isN?'class="num"':''}>${t}</span></button>`;}).join('')}</div>`;
+  }else if(q.t==='in'){
+    body=`<div class="in-row"><input id="qIn" class="field" inputmode="decimal" maxlength="16" autocomplete="off" aria-label="إجابتك"><button class="btn alt" id="qCheck">تحقّق</button><button class="hint-btn" id="qHintBtn">تلميح</button></div><p id="qHint" style="color:var(--coral);font-weight:700;min-height:1.4em"></p>`;
+  }else if(q.t==='two'){
+    body=`<div class="in-row"><input id="qA" class="field" inputmode="decimal" maxlength="12" autocomplete="off" aria-label="العدد الأول"><input id="qB" class="field" inputmode="decimal" maxlength="12" autocomplete="off" aria-label="العدد الثاني"><button class="btn alt" id="qCheck">تحقّق</button></div><p id="qHint" style="color:var(--coral);font-weight:700;min-height:1.4em"></p>`;
+  }else{
+    body=`<textarea id="qFree" aria-label="إجابتك"></textarea><div><button class="btn alt" id="qCheck">احفظ إجابتي</button></div><p id="qHint" style="color:var(--coral);font-weight:700;min-height:1.4em"></p>`;
+  }
+  $('quizBox').innerHTML=`<div class="q-top"><b>السؤال ${N(ar(qz.i+1))} من ${N(ar(tot))}</b><div class="progress"><i style="width:${qz.i/tot*100}%"></i></div><b>الدرجة ${N(ar(qz.score))}</b></div>
+    <span class="part-tag">${PARTS[q.part]}</span>
+    <p class="q-text">${q.q}</p>${body}
+    <div class="explain" id="qEx" hidden></div>
+    <div class="q-nav"><button class="btn alt" id="qNext" hidden>${qz.i+1<tot?'السؤال التالي':'اعرض النتيجة'}</button></div>`;
+  if(q.t==='mc'){
+    document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+      const oi=+b.dataset.oi,ok=oi===0;
+      document.querySelectorAll('.opt').forEach(x=>{x.disabled=true;if(+x.dataset.oi===0)x.classList.add('right');});
+      if(!ok)b.classList.add('wrong');
+      qMark(ok,q,q.o[oi][1]);
+    });
+  }else if(q.t==='in'){
+    const inp=$('qIn');inp.focus();
+    $('qHintBtn').onclick=()=>{
+      if(qHintUsed)return;qHintUsed=true;
+      const p=q.p,u=idxOf(q.num,p);
+      $('qHint').innerHTML=`التلميح: ضع خطًّا تحت الرقم في منزلة <b>${PN[p]}</b>، إنه <b class="num">${AR[q.num[u]]}</b>. انظر إلى الرقم عن يمينه.`;
+      $('qHint').style.color='var(--sea)';
+    };
+    const chk=()=>{const v=norm(inp.value);if(!isNum(v)){$('qHint').textContent='اكتب عددًا بالأرقام، مثل ٢٥ أو ٤٫٣';$('qHint').style.color='var(--coral)';return;}
+      const ans=roundInfo(q.num,q.p).ans,ok=canon(v)===canon(ans);
+      inp.disabled=true;$('qCheck').disabled=true;$('qHintBtn').disabled=true;$('qHint').textContent='';inp.classList.add(ok?'ok':'no');
+      const note=ok&&parts(v).d>parts(ans).d?'(نكتبها '+ar(ans)+' بحذف الأرقام الزائدة.)':'';
+      qMark(ok,q,ok?null:classifyIn(q.num,q.p,v),note);};
+    $('qCheck').onclick=chk;inp.onkeydown=e=>{if(e.key==='Enter')chk();};
+  }else if(q.t==='two'){
+    $('qA').focus();
+    $('qCheck').onclick=()=>{const a=norm($('qA').value),b=norm($('qB').value);
+      if(!isNum(a)||!isNum(b)){$('qHint').textContent='اكتب عددين بالأرقام.';return;}
+      if(canon(a)===canon(b)){$('qHint').textContent='اكتب عددين مختلفين.';return;}
+      const good=x=>parts(x).d>=1&&canon(roundInfo(x,-1).ans)==='18.3';
+      const ga=good(a),gb=good(b),ok=ga&&gb;
+      $('qA').classList.add(ga?'ok':'no');$('qB').classList.add(gb?'ok':'no');
+      $('qA').disabled=$('qB').disabled=$('qCheck').disabled=true;$('qHint').textContent='';
+      qz.free.push('عددان يقرّبان إلى ١٨٫٣: '+ar(a)+' و '+ar(b));
+      qMark(ok,q,ok?null:'dir');};
+  }else{
+    $('qCheck').onclick=()=>{const t=$('qFree').value.trim();if(t.length<5){$('qHint').textContent='اكتب موقفين على الأقل.';return;}
+      $('qFree').disabled=true;$('qCheck').disabled=true;$('qHint').textContent='';qz.free.push('مواقف التقريب: '+t);qMark(true,q,null);};
+  }
+  $('qNext').onclick=()=>{qz.i++;qz.i<tot?qShow():qEnd();};
+}
+function buildReport(){
+  const tagLines=Object.entries(qz.tags).sort((a,b)=>b[1]-a[1]).map(([t,n])=>`- ${TAGS[t][0]}: ${ar(n)}`).join('\n')||'- لا توجد أخطاء';
+  return `تقرير درس تقريب الأعداد والكسور العشرية (٢-١)
+الطالب: ${qz.name||'بدون اسم'}
+التاريخ: ${new Date().toLocaleDateString('ar-SA')}
+الأجزاء: ${qz.parts.map(k=>PARTS[k]).join('، ')}
+الدرجة: ${ar(qz.score)} من ${ar(qz.graded)}
+الأخطاء حسب النوع:
+${tagLines}
+لعبة جزيرة الكنز: ${lastGame?`${ar(lastGame.right)} من ١٠، ${ar(lastGame.score)} نقطة`:'لم تُلعب'}
+${qz.free.join('\n')}`;
+}
+function qEnd(){
+  const tot=qz.graded,pct=tot?qz.score/tot:0,st=pct>=.9?3:pct>=.7?2:pct>=.5?1:0;
+  if(tot>0&&qz.score===tot)unlock('perfect');
+  const msg=st===3?'ممتاز! أتقنت التقريب.':st===2?'جيد جدًا! راجع الأخطاء أدناه.':st===1?'جيد. تدرّب في «جرّب بنفسك» داخل آلة التقريب.':'لا بأس. ابدأ من تلّة التقريب ثم حاول مجددًا.';
+  const top=Object.entries(qz.tags).sort((a,b)=>b[1]-a[1]).slice(0,3);
+  $('quizBox').innerHTML=`<div style="display:grid;gap:14px;justify-items:center;text-align:center">
+    ${qz.name?`<p class="q-text">${esc(qz.name)}</p>`:''}
+    <div class="score-big num">${ar(qz.score)} / ${ar(tot)}</div>
+    <div class="stars">${[0,1,2].map(k=>`<span class="${k<st?'':'off'}">★</span>`).join('')}</div>
+    <p>${msg}</p>
+    ${top.length?`<h3 style="font-size:20px">أكثر ما تحتاج إلى مراجعته</h3><div class="err-list">${top.map(([t,n])=>`<div><b>${TAGS[t][0]} (${ar(n)})</b>: ${TAGS[t][1]}</div>`).join('')}</div>`:''}
+    ${qz.wrong.length?`<h3 style="font-size:20px">الأسئلة التي أخطأت فيها</h3><ul class="review">${qz.wrong.map(q=>`<li>${q.q}<br><b style="color:var(--kelp)">الإجابة: ${q.t==='mc'?q.o[0][0]:q.t==='in'?N(ar(roundInfo(q.num,q.p).ans)):q.e}</b></li>`).join('')}</ul>`:''}
+    <h3 style="font-size:20px">تقرير للمعلم</h3>
+    <textarea class="report" id="qReport" readonly aria-label="تقرير للمعلم">${esc(buildReport())}</textarea>
+    <div class="ctrl">
+      <button class="btn" id="qCopy">انسخ التقرير</button>
+      <button class="btn alt" id="qPrint">اطبع</button>
+      <button class="btn alt" id="qAgain">أعد التقويم</button>
+    </div>
+    <p id="qCopyMsg" style="font-weight:700;min-height:1.4em"></p></div>`;
+  $('qCopy').onclick=()=>{
+    const t=$('qReport').value,fb=()=>{$('qReport').select();$('qCopyMsg').textContent='حدّدنا النص، انسخه يدويًا.';};
+    try{navigator.clipboard.writeText(t).then(()=>{$('qCopyMsg').textContent='نُسخ التقرير. الصقه في رسالة للمعلم.';},fb);}catch(e){fb();}
+  };
+  $('qPrint').onclick=()=>window.print();
+  $('qAgain').onclick=qIntro;
+  if(st===3)confetti(150);
+}
+achGrid();
+qIntro();
+</script>
+
+</body></html>
