@@ -1487,7 +1487,7 @@ const GOALS={
 };
 ST.done=ST.done||{};ST.prog=ST.prog||{};
 // رمز المعلم: غيّره هنا إن أردت
-const TEACHER_CODE='2468';
+const TEACHER_CODE='1122';
 let teacher=false;
 try{teacher=sessionStorage.getItem(STORE_KEY+'-teacher')==='1';}catch(e){}
 const isOpen=k=>teacher||k===0||!!ST.done[SECS[k-1].id];
