@@ -243,7 +243,48 @@ nav.top a[aria-current] .ck{color:#fff}
 .to-top.show{opacity:1;pointer-events:auto;transform:none}
 @media (max-width:560px){.pager a{max-width:100%;flex:1 1 100%}}
 
-/* ====== التلّة ثلاثية الأبعاد ====== */
+/* ====== صفحات الخطوات والإتقان ====== */
+nav.top a{display:flex;align-items:center;gap:6px}
+nav.top a .st{font-family:var(--f-display);font-size:13px;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--surface);color:var(--muted);flex:none}
+nav.top a.done .st{background:var(--kelp);color:#fff}
+nav.top a[aria-current] .st{background:#fff;color:var(--sea)}
+nav.top a.locked{opacity:.5;cursor:not-allowed}
+nav.top a.locked:hover{background:var(--surface-2);color:var(--ink)}
+nav.top a .ck{display:none!important}
+.badges-top{flex-basis:100%;min-width:0;max-width:100%;margin-top:8px}
+@media (max-width:480px){.bt-more{display:none}}
+.badges-top summary{list-style:none;display:flex;align-items:center;gap:10px;cursor:pointer;background:var(--surface);border:2px solid var(--line);border-radius:999px;padding:3px 12px;font-weight:700;font-size:14px;flex-wrap:nowrap;overflow:hidden}
+.badges-top summary::-webkit-details-marker{display:none}
+.badges-top summary:hover{border-color:var(--sun)}
+.bt-title{white-space:nowrap}
+.bt-icons{display:flex;gap:4px;flex:1;min-width:0;overflow:hidden}
+.bt-icons span{font-size:19px;line-height:1.3;filter:grayscale(1);opacity:.35;transition:filter .3s,opacity .3s,transform .3s}
+.bt-icons span.on{filter:none;opacity:1}
+.bt-icons span.pop{animation:pop .7s}
+@keyframes pop{40%{transform:scale(1.6)}}
+.bt-more{font-size:12px;color:var(--muted);white-space:nowrap}
+.badges-top[open] .bt-more{color:var(--sea)}
+.badges-top .achievements{margin-top:8px;max-height:min(60vh,420px);overflow:auto;padding:4px}
+.page-step{font-family:var(--f-display);font-weight:700;color:var(--muted);font-size:15px}
+.mini-check{display:grid;gap:8px;margin-top:10px;border-top:2px dashed var(--line);padding-top:10px}
+.mini-check .btn{font-size:18px}
+.chal{border:3px solid var(--sun)}
+.chal h3{font-size:22px;color:var(--title)}
+.dots{display:flex;gap:8px;justify-content:center}
+.dots i{width:18px;height:18px;border-radius:50%;background:var(--surface-2);border:2px solid var(--line);transition:background .3s}
+.dots i.on{background:var(--kelp);border-color:var(--kelp)}
+.gate{display:grid;gap:12px;background:var(--surface);border-radius:20px;padding:14px 16px;border:3px dashed var(--line)}
+.gate.ok{border-style:solid;border-color:var(--kelp);background:color-mix(in srgb,var(--kelp) 10%,var(--surface))}
+.gate-info{display:flex;gap:10px;align-items:flex-start}
+.gate-info .ic{font-size:26px;line-height:1.2}
+.gate-info b{font-family:var(--f-display)}
+.gate-prog{color:var(--muted);font-weight:700;font-size:15px}
+.gate.ok .gate-prog{color:var(--kelp)}
+.gate-btns{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.gate-btns .next{margin-inline-start:auto}
+.gate.ok .next{animation:nudge 1.6s ease-in-out 3}
+@keyframes nudge{50%{transform:translateX(-6px)}}
+
 .hill3d{position:relative;border-radius:18px;overflow:hidden;background:linear-gradient(var(--surface-2),var(--surface) 75%);touch-action:pan-y;cursor:grab}
 .hill3d:active{cursor:grabbing}
 .hill3d canvas{display:block;width:100%!important}
@@ -310,12 +351,15 @@ nav.top a[aria-current] .ck{color:#fff}
     <li><a href="#machine">آلة التقريب</a></li>
     <li><a href="#game">اللعبة</a></li>
     <li><a href="#quiz">التقويم</a></li>
-    <li><a href="#badges">الشارات</a></li>
   </ul>
   <div class="nav-tools">
     <button id="themeBtn" title="تبديل الوضع الليلي" aria-label="تبديل الوضع الليلي">🌙</button>
     <button id="resetAllBtn" title="إعادة تعيين كل البيانات" aria-label="إعادة تعيين كل البيانات">🔄</button>
   </div>
+  <details class="badges-top" id="badgesTop">
+    <summary><span class="bt-title">🏅 شاراتي <b id="achCount" class="num"></b></span><span class="bt-icons" id="achIcons" aria-hidden="true"></span><span class="bt-more">عرض التفاصيل</span></summary>
+    <div class="achievements" id="achGrid"></div>
+  </details>
   <div class="scroll-prog" aria-hidden="true"><i id="scrollProg"></i></div>
 </nav>
 <button class="to-top" id="toTop" aria-label="العودة إلى أعلى الدرس" title="إلى الأعلى">↑</button>
@@ -350,6 +394,11 @@ nav.top a[aria-current] .ck{color:#fff}
           <div id="readyAns" hidden>
             <div class="mini-line"><div class="bar"></div><div class="tick" style="left:0%"></div><div class="tick mid" style="left:50%"></div><div class="tick" style="left:100%"></div><span class="end" style="left:0%">١٤</span><span class="end win" style="left:100%">١٥</span><span class="pin" style="left:90%"></span></div>
             <p>العدد ١٤٫٩ أقرب كثيرًا إلى ١٥ منه إلى ١٤، لذلك قرّبته أمل إلى ١٥.</p>
+            <div class="mini-check" id="ideaCheck">
+              <p><b style="color:inherit">تحقّق:</b> والعمق <span class="num">٢٢٩٨</span> م، هل هو أقرب إلى <span class="num">٢٢٠٠</span> أم إلى <span class="num">٢٣٠٠</span>؟</p>
+              <div class="ctrl" style="justify-content:flex-start"><button class="btn alt" data-ic="0">٢٢٠٠</button><button class="btn alt" data-ic="1">٢٣٠٠</button></div>
+              <p class="verdict" id="icFb" style="text-align:start"></p>
+            </div>
           </div>
         </div>
       </div>
@@ -379,6 +428,16 @@ nav.top a[aria-current] .ck{color:#fff}
     <div class="rule-cards">
       <div class="rule down"><h3>الرقم الواقع عن اليمين أصغر من ٥</h3><p class="big">٠ ١ ٢ ٣ ٤</p><p>الكرة لم تصل إلى القمة، فتعود إلى <b>العدد الأصغر</b>. الرقم الذي تحته خط لا يتغيّر.</p></div>
       <div class="rule up"><h3>الرقم الواقع عن اليمين ٥ أو أكبر</h3><p class="big">٥ ٦ ٧ ٨ ٩</p><p>الكرة عبرت القمة، فتنزل إلى <b>العدد الأكبر</b>. نضيف ١ إلى الرقم الذي تحته خط. إذا وقفت الكرة على القمة تمامًا (الرقم ٥) نتفق أن تتدحرج إلى الأكبر.</p></div>
+    </div>
+    <div class="panel chal" id="hillChal">
+      <h3>🎯 تحدّي الإتقان: إلى أين تتدحرج الكرة؟</h3>
+      <p class="sec-sub">أجب <b>٤ مرات متتالية</b> إجابة صحيحة لتفتح الخطوة التالية.</p>
+      <div class="dots" id="hcDots" aria-label="التقدم في التحدي"></div>
+      <p class="q-text" id="hcQ" style="text-align:center"></p>
+      <div class="ctrl" id="hcOpts"></div>
+      <div class="mini-line" id="hcLine" hidden></div>
+      <p class="verdict" id="hcFb" aria-live="polite"></p>
+      <div class="ctrl"><button class="btn ghost" id="hcNext" hidden>سؤال آخر</button></div>
     </div>
   </section>
 
@@ -468,12 +527,6 @@ nav.top a[aria-current] .ck{color:#fff}
     <div class="panel" id="quizBox"></div>
   </section>
 
-  <section class="block" id="badges" aria-labelledby="badges-h">
-    <div class="sec-head"><span class="ico" aria-hidden="true">★</span><h2 id="badges-h">شارات الإنجاز</h2></div>
-    <p class="sec-sub">تُفتح الشارات تلقائيًا أثناء تقدمك في الدرس. محفوظة في متصفحك.</p>
-    <div class="panel"><div class="achievements" id="achGrid"></div></div>
-  </section>
-
   <footer>مبني على درس «تقريب الأعداد والكسور العشرية»، الفصل الثاني: الجمع والطرح، الصف الخامس.</footer>
 </div>
 
@@ -533,8 +586,12 @@ const ACHS=[
   {id:'machine',ico:'⚙️',name:'عالم الآلة',desc:'استخدم «جرّب بنفسك» في آلة التقريب'},
   {id:'explorer',ico:'🧭',name:'مستكشف',desc:'جرّب كل أوضاع تلّة التقريب الثلاثة'},
   {id:'practice',ico:'🎯',name:'متدرّب نشيط',desc:'أجب ٨ من ١٠ صحيحة في التدريب الإضافي'},
+  {id:'lesson',ico:'🌟',name:'بطل التقريب',desc:'أتقن خطوات الدرس الخمس كلها'},
 ];
 function achGrid(){
+  const n=ACHS.filter(a=>ST.ach[a.id]).length;
+  $('achCount').textContent=`${ar(n)}/${ar(ACHS.length)}`;
+  $('achIcons').innerHTML=ACHS.map(a=>`<span class="${ST.ach[a.id]?'on':''}" data-i="${a.id}" title="${a.name}">${a.ico}</span>`).join('');
   $('achGrid').innerHTML=ACHS.map(a=>`<div class="ach ${ST.ach[a.id]?'unlocked':''}" data-ach="${a.id}">
     <span class="ico">${a.ico}</span><b>${a.name}</b><small>${a.desc}</small></div>`).join('');
 }
@@ -543,6 +600,7 @@ function unlock(id){
   ST.ach[id]=true;saveST();
   const a=ACHS.find(x=>x.id===id);
   achGrid();
+  const ic=document.querySelector(`#achIcons [data-i="${id}"]`);if(ic)ic.classList.add('pop');
   toast(`${a.ico} فتحت شارة: ${a.name}!`);
   confetti(30);
 }
@@ -583,9 +641,11 @@ applyTheme();
 $('resetAllBtn').onclick=()=>{
   if(!confirm('سيتم حذف اسمك، شاراتك، أفضل نتيجة في اللعبة، وإعداداتك. هل تريد المتابعة؟'))return;
   try{localStorage.removeItem(STORE_KEY);}catch(e){}
-  ST={theme:null,sound:true,name:'',bestScore:0,bestRight:0,ach:{},plays:0,done:{},view3d:H3.on};
+  ST={theme:null,sound:true,name:'',bestScore:0,bestRight:0,ach:{},plays:0,done:{},prog:{},view3d:H3.on};
   try{localStorage.removeItem(QZ_KEY);}catch(e){}
-  applyTheme();achGrid();navMarks();qz=null;qIntro();
+  hc.streak=0;hcDots();hcNew();
+  document.querySelectorAll('[data-ic]').forEach(x=>x.disabled=false);$('icFb').textContent='';
+  applyTheme();achGrid();navMarks();qz=null;qIntro();showPage('idea');
   $('gSound').setAttribute('aria-pressed','true');$('gSound').textContent='🔊';
   toast('تمت إعادة تعيين كل البيانات.');
 };
@@ -605,7 +665,7 @@ function beep(ok,kind='normal'){
   }catch(e){}
 }
 
-$('readyBtn').onclick=()=>{$('readyAns').hidden=false;$('readyBtn').hidden=true;markDone('idea');};
+$('readyBtn').onclick=()=>{$('readyAns').hidden=false;$('readyBtn').hidden=true;};
 
 /* ============ تلّة التقريب ============ */
 const MODES={
@@ -656,7 +716,7 @@ $('dropBtn').onclick=()=>{
   const step=now=>{const p=Math.min(1,(now-start)/dur),e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
     const t=from+(to-from)*e;placeBall(t,(t-from)*720);
     if(p<1)anim=requestAnimationFrame(step);else{
-      ballT=to;$(up?'tHi':'tLo').setAttribute('fill','var(--kelp)');H3.win(up);markDone('hill');
+      ballT=to;$(up?'tHi':'tLo').setAttribute('fill','var(--kelp)');H3.win(up);
       $('hillVerdict').innerHTML=(up?`الرقم ${AR[k]} هو ٥ أو أكبر، فتدحرجت الكرة إلى العدد الأكبر: `:`الرقم ${AR[k]} أصغر من ٥، فعادت الكرة إلى العدد الأصغر: `)+`<span class="num">${ar(num)} ≈ ${ar(up?m.hi:m.lo)}</span>`;
       beep(true);
     }};
@@ -877,7 +937,7 @@ function renderMachine(){
   }else if(tryMode){task.hidden=false;task.innerHTML=`<p class="msg ok">أحسنت! حللت الخطوات الأربع بنفسك. اختر عددًا آخر وجرّب مرة أخرى.</p>`;}
   else task.hidden=true;
   if(mStep>=4){
-    $('mResult').innerHTML=`<span class="num">${ar(mStr)} ≈ ${ar(r.ans)}</span>`;markDone('machine');
+    $('mResult').innerHTML=`<span class="num">${ar(mStr)} ≈ ${ar(r.ans)}</span>`;
     const L=$('mLine');L.hidden=false;
     L.innerHTML=`<div class="bar"></div><div class="tick" style="left:0%"></div><div class="tick mid" style="left:50%"></div><div class="tick" style="left:100%"></div>
       <span class="end ${r.up?'':'win'}" style="left:0%">${ar(r.lo)}</span><span class="end ${r.up?'win':''}" style="left:100%">${ar(r.hi)}</span>
@@ -905,7 +965,7 @@ function checkTry(v,r){
   if(!isNum(s)){mMsg='اكتب عددًا بالأرقام.';mMsgOk=false;renderMachine();return;}
   if(canon(s)===canon(r.ans)){
     const extra=parts(s).d>parts(r.ans).d;
-    mStep=4;mMsg=extra?'القيمة صحيحة، لكن نحذف الأرقام بعد المنزلة المطلوبة.':'';mMsgOk=true;beep(true);
+    mStep=4;setTimeout(machineSolved,0);mMsg=extra?'القيمة صحيحة، لكن نحذف الأرقام بعد المنزلة المطلوبة.':'';mMsgOk=true;beep(true);
   }else{mMsg='ليس بعد. راجع الخطوة ٤: بدّل الأرقام عن اليمين بأصفار أو احذفها.';mMsgOk=false;beep(false);}
   renderMachine();
 }
@@ -957,7 +1017,8 @@ function gUpdateBest(){
   else $('gBest').textContent='';
 }
 function gStart(){
-  g={r:0,score:0,right:0,streak:0,cur:null,locked:true,timer:null};
+  clearTimeout(g.nextT);
+  g={r:0,score:0,right:0,streak:0,cur:null,locked:true,timer:null,running:true,nextT:0};
   $('gStart').hidden=true;$('gEnd').hidden=true;$('gTimerBox').style.visibility=noTime?'hidden':'visible';
   $('gTimerSec').style.visibility=noTime?'hidden':'visible';
   $('gCombo').classList.add('hide');
@@ -966,6 +1027,7 @@ function gStart(){
   gNext();
 }
 function gNext(){
+  if(!g.running)return;
   if(g.r>=10)return gFinish();
   const c=g.cur=genRound(g.r);
   $('gRound').textContent=ar(g.r+1);$('gScore').textContent=ar(g.score);$('gRight').textContent=ar(g.right);
@@ -1022,10 +1084,14 @@ function gAnswer(k){
   // السلسلة الحالية
   if(g.streak>=2){$('gCombo').classList.remove('hide');$('gCombo').textContent=`سلسلة ×${ar(g.streak)}`;}
   else $('gCombo').classList.add('hide');
-  g.r++;setTimeout(gNext,ok?2000:3600);
+  g.r++;g.nextT=setTimeout(gNext,ok?2000:3600);
+}
+function gAbort(){
+  clearInterval(g.timer);clearTimeout(g.nextT);g.running=false;g.locked=true;
+  $('gEnd').hidden=true;$('gStart').hidden=false;
 }
 function gFinish(){
-  clearInterval(g.timer);
+  clearInterval(g.timer);g.running=false;
   const st=g.right>=9?3:g.right>=7?2:g.right>=5?1:0;
   lastGame={right:g.right,score:g.score};
   // أفضل نتيجة
@@ -1033,7 +1099,8 @@ function gFinish(){
     ST.bestScore=g.score;ST.bestRight=g.right;saveST();
   }
   if(st===3)unlock('captain');
-  markDone('game');
+  if(ST.prog.gameBest==null||g.right>ST.prog.gameBest){ST.prog.gameBest=g.right;saveST();}
+  if(g.right>=7)markDone('game');else navMarks();
   $('gStars').innerHTML=[0,1,2].map(k=>`<span class="${k<st?'':'off'}">★</span>`).join('');
   $('gEndStats').innerHTML=`
     <div>صحيحة <b>${ar(g.right)}/١٠</b></div>
@@ -1054,7 +1121,7 @@ if(!soundOn){$('gSound').setAttribute('aria-pressed','false');$('gSound').textCo
 gUpdateBest();
 // اختصارات لوحة المفاتيح للعبة
 document.addEventListener('keydown',e=>{
-  if($('gameBox').getBoundingClientRect().top>window.innerHeight||$('gameBox').getBoundingClientRect().bottom<0)return;
+  if($('game').hidden||e.altKey)return;
   if(!g.locked&&/^[1-3]$/.test(e.key)){const k=+e.key-1;if($('isles').children[k])gAnswer(k);}
 });
 
@@ -1310,8 +1377,8 @@ function qShow(){
 // لوحة المفاتيح: ١-٤ أو أ-د للاختيار، Enter للتالي
 document.addEventListener('keydown',e=>{
   if(e.altKey||e.ctrlKey||e.metaKey)return;
-  const box=$('quizBox'),r=box.getBoundingClientRect();
-  if(r.bottom<0||r.top>innerHeight)return;
+  const box=$('quizBox');
+  if($('quiz').hidden)return;
   if(/^(INPUT|TEXTAREA)$/.test(document.activeElement&&document.activeElement.tagName))return;
   const key=norm(e.key),li=LET.indexOf(e.key),k=/^[1-4]$/.test(key)?+key-1:li;
   if(k>=0){const b=box.querySelectorAll('.opt')[k];if(b&&!b.disabled){e.preventDefault();b.click();}return;}
@@ -1339,7 +1406,11 @@ function qEnd(){
     const s0=qStats();
     if(qz.mode==='full'&&s0.graded>0&&s0.score===s0.graded)unlock('perfect');
     if(qz.mode==='practice'&&s0.score>=8)unlock('practice');
-    markDone('quiz');
+    if(qz.mode==='full'&&s0.graded>0){
+      const pc=Math.round(s0.score/s0.graded*100);
+      if(ST.prog.quizBest==null||pc>ST.prog.quizBest){ST.prog.quizBest=pc;saveST();}
+      if(pc>=70)markDone('quiz');else navMarks();
+    }
   }
   qView=null;
   const st=qStats(),tot=st.graded,pct=tot?st.score/tot:0,stars=pct>=.9?3:pct>=.7?2:pct>=.5?1:0;
@@ -1377,70 +1448,142 @@ function qEnd(){
   if(stars===3)confetti(150);
 }
 
-/* ============ التنقل بين الأقسام ============ */
+achGrid();
+qIntro();
+/* ============ صفحات الخطوات: لا ننتقل إلا بعد الإتقان ============ */
 const SECS=[...document.querySelectorAll('nav.top a[href^="#"]')].map(a=>({id:a.getAttribute('href').slice(1),name:a.textContent.trim(),a}));
-SECS.forEach(s=>{s.el=$(s.id);s.a.insertAdjacentHTML('beforeend','<span class="ck" aria-hidden="true">✓</span>');});
-function markDone(id){
-  ST.done=ST.done||{};
-  if(!ST.done[id]){ST.done[id]=true;saveST();}
-  navMarks();
-}
-function navMarks(){
-  const d=ST.done||{};
-  SECS.forEach(s=>{s.a.classList.toggle('done',!!d[s.id]);s.a.title=d[s.id]?'أنجزت هذا القسم':'';});
-}
-// أزرار «السابق / التالي» في نهاية كل قسم
-SECS.forEach((s,k)=>{
-  const prev=SECS[k-1],next=SECS[k+1];
-  const pg=document.createElement('nav');pg.className='pager';pg.setAttribute('aria-label','التنقل بين الأقسام');
-  pg.innerHTML=`<span class="pos">القسم ${ar(k+1)} من ${ar(SECS.length)}</span>`+
-    (prev?`<a href="#${prev.id}" class="prev"><span class="arw" aria-hidden="true">→</span><span><small>السابق</small>${prev.name}</span></a>`:'')+
-    (next?`<a href="#${next.id}" class="next"><span><small>التالي</small>${next.name}</span><span class="arw" aria-hidden="true">←</span></a>`:`<a href="#idea" class="next"><span><small>انتهى الدرس</small>العودة إلى البداية</span><span class="arw" aria-hidden="true">↑</span></a>`);
-  s.el.appendChild(pg);
-});
-// القسم الحالي يضيء في الشريط العلوي
+const GOALS={
+  idea:{ic:'💡',txt:'اكشف الجواب ثم أجب عن سؤال التحقّق إجابة صحيحة.'},
+  hill:{ic:'⛰️',txt:'أجب ٤ مرات متتالية إجابة صحيحة في «تحدّي الإتقان».',prog:()=>`السلسلة الحالية: ${ar(hc.streak)} من ٤`},
+  machine:{ic:'⚙️',txt:'استعمل «جرّب بنفسك» وحلّ الخطوات الأربع لعددين مختلفين.',prog:()=>`أنجزت ${ar(Math.min(2,(ST.prog.machine||[]).length))} من ٢`},
+  game:{ic:'⛵',txt:'أنهِ اللعبة بـ ٧ إجابات صحيحة على الأقل من ١٠ (نجمتان).',prog:()=>ST.prog.gameBest!=null?`أفضل محاولة: ${ar(ST.prog.gameBest)} من ١٠`:'لم تلعب بعد'},
+  quiz:{ic:'🏁',txt:'احصل على ٧٠٪ أو أكثر في «التقويم الكامل» لتُتمّ الدرس.',prog:()=>ST.prog.quizBest!=null?`أفضل نتيجة: ${ar(ST.prog.quizBest)}٪`:'لم تبدأ بعد'}
+};
+ST.done=ST.done||{};ST.prog=ST.prog||{};
+const isOpen=k=>k===0||!!ST.done[SECS[k-1].id];
 let curSec=null;
-function setCurrent(id){
-  if(id===curSec)return;curSec=id;
-  SECS.forEach(s=>{if(s.id===id)s.a.setAttribute('aria-current','location');else s.a.removeAttribute('aria-current');});
-  const s=SECS.find(x=>x.id===id),ul=s&&s.a.closest('ul');
-  if(ul&&ul.scrollWidth>ul.clientWidth){
-    const ar_=s.a.getBoundingClientRect(),ur=ul.getBoundingClientRect();
-    ul.scrollBy({left:(ar_.left+ar_.width/2)-(ur.left+ur.width/2),behavior:'smooth'});
-  }
-  if(history.replaceState&&location.hash!=='#'+id)try{history.replaceState(null,'','#'+id);}catch(e){}
+SECS.forEach((s,k)=>{
+  s.el=$(s.id);
+  s.a.innerHTML=`<span class="st" aria-hidden="true">${ar(k+1)}</span>${s.name}`;
+  // رقم الخطوة فوق عنوان الصفحة
+  const ico=s.el.querySelector('.sec-head .ico');if(ico)ico.textContent=ar(k+1);
+  const head=s.el.querySelector('.sec-head,.badge');
+  if(head)head.insertAdjacentHTML('beforebegin',`<span class="page-step">الخطوة ${ar(k+1)} من ${ar(SECS.length)}</span>`);
+  const prev=SECS[k-1],next=SECS[k+1];
+  const gate=document.createElement('div');gate.className='gate';gate.id='gate-'+s.id;
+  gate.innerHTML=`<div class="gate-info"><span class="ic" aria-hidden="true">${GOALS[s.id].ic}</span><div><b>شرط الإتقان:</b> ${GOALS[s.id].txt}<div class="gate-prog" aria-live="polite"></div></div></div>
+    <div class="gate-btns">${prev?`<button class="btn ghost prev">→ السابق: ${prev.name}</button>`:''}
+    ${next?`<button class="btn next">التالي: ${next.name} ←</button>`:`<button class="btn next">🏆 أتممت الدرس</button>`}</div>`;
+  s.el.appendChild(gate);
+  if(prev)gate.querySelector('.prev').onclick=()=>showPage(prev.id);
+  gate.querySelector('.next').onclick=()=>{
+    if(!ST.done[s.id]){toast(`🔒 أتقن هذه الخطوة أولًا: ${GOALS[s.id].txt}`);gate.scrollIntoView({block:'center'});return;}
+    if(next)showPage(next.id);else{confetti(160);toast('🏆 أحسنت! أتممت درس التقريب كله.');}
+  };
+});
+function navMarks(){
+  SECS.forEach((s,k)=>{
+    const done=!!ST.done[s.id],open=isOpen(k);
+    s.a.classList.toggle('done',done);s.a.classList.toggle('locked',!open);
+    s.a.querySelector('.st').textContent=done?'✓':open?ar(k+1):'🔒';
+    s.a.title=done?'أتقنت هذه الخطوة':open?'':'مقفلة: أتقن الخطوة السابقة أولًا';
+    s.a.setAttribute('aria-disabled',!open);
+    const g=$('gate-'+s.id),pr=GOALS[s.id].prog;
+    g.classList.toggle('ok',done);
+    g.querySelector('.gate-prog').textContent=done?'✓ أتقنت هذه الخطوة!':pr?pr():'';
+    g.querySelector('.next').disabled=false;
+    g.querySelector('.next').classList.toggle('ghost',!done);
+  });
+}
+function markDone(id){
+  if(ST.done[id]){navMarks();return;}
+  ST.done[id]=true;saveST();navMarks();
+  const k=SECS.findIndex(s=>s.id===id),next=SECS[k+1];
+  confetti(50);beep(true,'combo');
+  toast(next?`🔓 أتقنت «${SECS[k].name}»! فُتحت الخطوة التالية: ${next.name}`:'🏆 أتممت الدرس كله! أحسنت.',4200);
+  if(!next)unlock('lesson');
+}
+function showPage(id,opts={}){
+  const k=SECS.findIndex(s=>s.id===id);
+  if(k<0)return;
+  if(!isOpen(k)){toast(`🔒 هذه الخطوة مقفلة. أتقن «${SECS[k-1].name}» أولًا.`);return;}
+  // مغادرة اللعبة أثناء اللعب تُوقفها
+  if(curSec==='game'&&id!=='game'&&g.running)gAbort();
+  curSec=id;ST.page=id;saveST();
+  SECS.forEach(s=>{s.el.hidden=s.id!==id;if(s.id===id)s.a.setAttribute('aria-current','page');else s.a.removeAttribute('aria-current');});
+  const ul=SECS[k].a.closest('ul');
+  if(ul.scrollWidth>ul.clientWidth){const ar_=SECS[k].a.getBoundingClientRect(),ur=ul.getBoundingClientRect();ul.scrollBy({left:(ar_.left+ar_.width/2)-(ur.left+ur.width/2),behavior:'smooth'});}
+  if(history.replaceState)try{history.replaceState(null,'','#'+id);}catch(e){}
+  if(!opts.keepScroll)scrollTo({top:0,behavior:'instant'});
+  const h=SECS[k].el.querySelector('h1,h2');if(h&&!opts.noFocus){h.setAttribute('tabindex','-1');h.focus({preventScroll:true});}
+  onScroll();
 }
 function onScroll(){
-  const de=document.documentElement,max=de.scrollHeight-innerHeight;
+  const max=document.documentElement.scrollHeight-innerHeight;
   $('scrollProg').style.width=(max>0?Math.min(100,scrollY/max*100):0)+'%';
   $('toTop').classList.toggle('show',scrollY>innerHeight*.8);
-  // القسم الذي يعبر خطًّا وهميًّا في ثلث الشاشة العلوي
-  const line=innerHeight*.33;let id=SECS[0].id;
-  for(const s of SECS){if(s.el.getBoundingClientRect().top<=line)id=s.id;}
-  if(max>0&&scrollY>=max-2)id=SECS[SECS.length-1].id;
-  setCurrent(id);
 }
 let scrollRaf=0;
 addEventListener('scroll',()=>{if(!scrollRaf)scrollRaf=requestAnimationFrame(()=>{scrollRaf=0;onScroll();});},{passive:true});
 addEventListener('resize',onScroll);
-$('toTop').onclick=()=>{scrollTo({top:0});$('idea').setAttribute('tabindex','-1');$('idea').focus({preventScroll:true});};
-// نقل التركيز إلى القسم بعد الانتقال إليه (لقارئات الشاشة ولوحة المفاتيح)
+$('toTop').onclick=()=>scrollTo({top:0});
 document.addEventListener('click',e=>{
   const a=e.target.closest('a[href^="#"]');if(!a)return;
-  const t=$(a.getAttribute('href').slice(1));if(!t)return;
-  e.preventDefault();
-  t.scrollIntoView({block:'start'});
-  t.setAttribute('tabindex','-1');t.focus({preventScroll:true});
+  const id=a.getAttribute('href').slice(1);if(!SECS.some(s=>s.id===id))return;
+  e.preventDefault();showPage(id);
 });
-// اختصارات: Alt + ← للقسم التالي، Alt + → للسابق
+// اختصارات: Alt + ← للخطوة التالية، Alt + → للسابقة
 document.addEventListener('keydown',e=>{
   if(!e.altKey||!/^Arrow(Left|Right)$/.test(e.key))return;
   const k=SECS.findIndex(s=>s.id===curSec),n=SECS[k+(e.key==='ArrowLeft'?1:-1)];
-  if(n){e.preventDefault();n.el.scrollIntoView({block:'start'});}
+  if(n){e.preventDefault();showPage(n.id);}
 });
-navMarks();onScroll();
-achGrid();
-qIntro();
+
+/* ---- إتقان الخطوة ١: سؤال تحقّق ---- */
+document.querySelectorAll('[data-ic]').forEach(b=>b.onclick=()=>{
+  const ok=b.dataset.ic==='1';beep(ok);
+  $('icFb').innerHTML=ok?'<span style="color:var(--kelp)">صحيح! ٢٢٩٨ أقرب إلى ٢٣٠٠، فالرقم ٩ الواقع عن يمين المئات أكبر من ٥.</span>':'<span style="color:var(--coral)">انظر إلى رقم العشرات ٩: هو ٥ أو أكبر، فالعدد أقرب إلى المئة الأكبر. حاول مرة أخرى.</span>';
+  if(ok){document.querySelectorAll('[data-ic]').forEach(x=>x.disabled=true);markDone('idea');}
+});
+
+/* ---- إتقان الخطوة ٢: تحدّي التلّة ---- */
+const hc={streak:0,cur:null,locked:false};
+function hcDots(){$('hcDots').innerHTML=[0,1,2,3].map(k=>`<i class="${k<hc.streak||ST.done.hill?'on':''}"></i>`).join('');}
+function hcNew(){
+  const c=hc.cur=genRound(rnd(0,8));hc.locked=false;
+  $('hcQ').innerHTML=`قرّب <span class="num" style="color:var(--coral)">${ar(c.s)}</span> إلى ${PA[c.p]}`;
+  $('hcOpts').innerHTML=[c.lo,c.hi].map((v,k)=>`<button class="btn alt" data-h="${k}">${ar(v)}</button>`).join('');
+  $('hcOpts').querySelectorAll('button').forEach(b=>b.onclick=()=>hcAnswer(+b.dataset.h));
+  $('hcLine').hidden=true;$('hcFb').textContent='';$('hcNext').hidden=true;
+}
+function hcAnswer(k){
+  if(hc.locked)return;hc.locked=true;
+  const c=hc.cur,ok=(k===1)===c.up,u=idxOf(c.s,c.p),pk=nextIdx(c.s,u);
+  $('hcOpts').querySelectorAll('button').forEach(b=>{b.disabled=true;const right=(+b.dataset.h===1)===c.up;
+    if(right)b.style.cssText='background:var(--kelp);box-shadow:none;opacity:1';else if(+b.dataset.h===k)b.style.cssText='background:var(--coral);box-shadow:none;opacity:1';});
+  hc.streak=ok?hc.streak+1:0;beep(ok);
+  $('hcFb').innerHTML=`<span style="color:var(--${ok?'kelp':'coral'})">${ok?'صحيح!':'ليس هذه المرة، وتبدأ السلسلة من جديد.'}</span> ${rule(c.s[pk],c.up)}. الإجابة <span class="num">${ar(c.ans)}</span>.`;
+  const L=$('hcLine');L.hidden=false;
+  L.innerHTML=`<div class="bar"></div><div class="tick" style="left:0%"></div><div class="tick mid" style="left:50%"></div><div class="tick" style="left:100%"></div>
+    <span class="end ${c.up?'':'win'}" style="left:0%">${ar(c.lo)}</span><span class="end ${c.up?'win':''}" style="left:100%">${ar(c.hi)}</span><span class="pin" style="left:${(c.frac*100).toFixed(1)}%"></span>`;
+  hcDots();navMarks();
+  if(hc.streak>=4)markDone('hill');
+  $('hcNext').hidden=false;
+}
+$('hcNext').onclick=hcNew;
+
+/* ---- إتقان الخطوة ٣: الآلة ---- */
+function machineSolved(){
+  const key=mStr+'|'+mP,l=ST.prog.machine=ST.prog.machine||[];
+  if(!l.includes(key)){l.push(key);saveST();}
+  if(l.length>=2)markDone('machine');else navMarks();
+}
+
+hcDots();hcNew();navMarks();onScroll();
+{
+  const h=location.hash.slice(1),want=[h,ST.page].find(id=>{const k=SECS.findIndex(s=>s.id===id);return k>=0&&isOpen(k);});
+  showPage(want||'idea',{noFocus:true});
+}
 </script>
 
 </body></html>
