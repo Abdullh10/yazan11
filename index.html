@@ -290,6 +290,17 @@ nav.top a .ck{display:none!important}
 .hill3d canvas{display:block;width:100%!important}
 .hill3d .tip{position:absolute;bottom:8px;inset-inline-start:10px;font-size:13px;color:var(--muted);font-weight:700;background:color-mix(in srgb,var(--surface) 80%,transparent);padding:0 8px;border-radius:8px;pointer-events:none}
 
+/* ====== وضع المعلم ====== */
+#teacherBtn[aria-pressed="true"]{background:var(--kelp);color:#fff}
+.teacher-bar{flex-basis:100%;margin-top:8px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;background:color-mix(in srgb,var(--kelp) 16%,var(--surface));border:2px solid var(--kelp);border-radius:14px;padding:6px 12px;font-size:14px}
+.teacher-bar .tb-btns{display:flex;gap:6px;flex-wrap:wrap}
+.teacher-bar .chip{font-size:13px;padding:2px 10px}
+@media (max-width:480px){.teacher-bar>span:first-child{display:none}.teacher-bar{justify-content:center}}
+.t-dlg{border:0;border-radius:20px;padding:20px;background:var(--surface);color:var(--ink);max-width:min(92vw,360px);box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.t-dlg::backdrop{background:rgba(0,0,0,.45)}
+.t-dlg form{display:grid;gap:10px;justify-items:center;text-align:center}
+.t-dlg h3{font-size:22px;color:var(--title)}
+
 /* ====== مشهد اللعبة المجسّم ====== */
 .game{background:linear-gradient(var(--surface-2) 0,var(--surface) 30%,var(--wave) 34%,color-mix(in srgb,var(--sea) 35%,var(--wave)) 100%)}
 .sea{perspective:600px;perspective-origin:50% 0}
@@ -354,12 +365,17 @@ nav.top a .ck{display:none!important}
   </ul>
   <div class="nav-tools">
     <button id="themeBtn" title="تبديل الوضع الليلي" aria-label="تبديل الوضع الليلي">🌙</button>
+    <button id="teacherBtn" title="وضع المعلم" aria-label="وضع المعلم" aria-pressed="false">👩‍🏫</button>
     <button id="resetAllBtn" title="إعادة تعيين كل البيانات" aria-label="إعادة تعيين كل البيانات">🔄</button>
   </div>
   <details class="badges-top" id="badgesTop">
     <summary><span class="bt-title">🏅 شاراتي <b id="achCount" class="num"></b></span><span class="bt-icons" id="achIcons" aria-hidden="true"></span><span class="bt-more">عرض التفاصيل</span></summary>
     <div class="achievements" id="achGrid"></div>
   </details>
+  <div class="teacher-bar" id="teacherBar" hidden>
+    <span class="tb-txt">👩‍🏫 <b>وضع المعلم:</b> كل الخطوات مفتوحة للتصفح، ولا يتغيّر تقدّم الطالب.</span>
+    <span class="tb-btns"><button class="chip" id="tMark">✓ اعتبر هذه الخطوة متقنة</button><button class="chip" id="tUnlockAll">🔓 افتح كل الخطوات للطالب</button><button class="chip" id="tExit">خروج من وضع المعلم</button></span>
+  </div>
   <div class="scroll-prog" aria-hidden="true"><i id="scrollProg"></i></div>
 </nav>
 <button class="to-top" id="toTop" aria-label="العودة إلى أعلى الدرس" title="إلى الأعلى">↑</button>
@@ -538,6 +554,16 @@ nav.top a .ck{display:none!important}
   <linearGradient id="gSail" x1="0" y1="0" x2="1" y2="0"><stop offset="0" style="stop-color:#fff"/><stop offset="1" style="stop-color:#D5E4EE"/></linearGradient>
   <radialGradient id="gWater" cx=".5" cy=".5" r=".5"><stop offset="0" style="stop-color:#fff" stop-opacity=".7"/><stop offset="1" style="stop-color:#fff" stop-opacity="0"/></radialGradient>
 </defs></svg>
+
+<dialog class="t-dlg" id="teacherDlg" aria-labelledby="tdTitle">
+  <form method="dialog" id="tdForm">
+    <h3 id="tdTitle">👩‍🏫 وضع المعلم</h3>
+    <p>اكتب رمز المعلم لفتح كل خطوات الدرس.</p>
+    <input id="tdCode" class="field" inputmode="numeric" autocomplete="off" aria-label="رمز المعلم">
+    <p id="tdMsg" class="msg" style="color:var(--coral);font-weight:700;min-height:1.4em"></p>
+    <div class="ctrl"><button class="btn alt" id="tdOk" value="ok">دخول</button><button class="btn ghost" value="cancel" formnovalidate>إلغاء</button></div>
+  </form>
+</dialog>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -1460,7 +1486,11 @@ const GOALS={
   quiz:{ic:'🏁',txt:'احصل على ٧٠٪ أو أكثر في «التقويم الكامل» لتُتمّ الدرس.',prog:()=>ST.prog.quizBest!=null?`أفضل نتيجة: ${ar(ST.prog.quizBest)}٪`:'لم تبدأ بعد'}
 };
 ST.done=ST.done||{};ST.prog=ST.prog||{};
-const isOpen=k=>k===0||!!ST.done[SECS[k-1].id];
+// رمز المعلم: غيّره هنا إن أردت
+const TEACHER_CODE='2468';
+let teacher=false;
+try{teacher=sessionStorage.getItem(STORE_KEY+'-teacher')==='1';}catch(e){}
+const isOpen=k=>teacher||k===0||!!ST.done[SECS[k-1].id];
 let curSec=null;
 SECS.forEach((s,k)=>{
   s.el=$(s.id);
@@ -1477,7 +1507,7 @@ SECS.forEach((s,k)=>{
   s.el.appendChild(gate);
   if(prev)gate.querySelector('.prev').onclick=()=>showPage(prev.id);
   gate.querySelector('.next').onclick=()=>{
-    if(!ST.done[s.id]){toast(`🔒 أتقن هذه الخطوة أولًا: ${GOALS[s.id].txt}`);gate.scrollIntoView({block:'center'});return;}
+    if(!ST.done[s.id]&&!teacher){toast(`🔒 أتقن هذه الخطوة أولًا: ${GOALS[s.id].txt}`);gate.scrollIntoView({block:'center'});return;}
     if(next)showPage(next.id);else{confetti(160);toast('🏆 أحسنت! أتممت درس التقريب كله.');}
   };
 });
@@ -1492,9 +1522,38 @@ function navMarks(){
     g.classList.toggle('ok',done);
     g.querySelector('.gate-prog').textContent=done?'✓ أتقنت هذه الخطوة!':pr?pr():'';
     g.querySelector('.next').disabled=false;
-    g.querySelector('.next').classList.toggle('ghost',!done);
+    g.querySelector('.next').classList.toggle('ghost',!done&&!teacher);
   });
 }
+/* ---- وضع المعلم ---- */
+function setTeacher(on){
+  teacher=on;
+  try{on?sessionStorage.setItem(STORE_KEY+'-teacher','1'):sessionStorage.removeItem(STORE_KEY+'-teacher');}catch(e){}
+  $('teacherBar').hidden=!on;$('teacherBtn').setAttribute('aria-pressed',on);
+  $('teacherBtn').title=on?'وضع المعلم مفعّل (اضغط للخروج)':'وضع المعلم';
+  navMarks();
+  // عند الخروج: إن كانت الصفحة الحالية مقفلة على الطالب نرجع إلى آخر خطوة مفتوحة
+  if(!on){const k=SECS.findIndex(s=>s.id===curSec);if(k>0&&!isOpen(k)){let j=k;while(j>0&&!isOpen(j))j--;showPage(SECS[j].id);}}
+}
+const tOn=()=>{setTeacher(true);toast('👩‍🏫 وضع المعلم مفعّل: كل الخطوات مفتوحة.');};
+const tOff=()=>{setTeacher(false);toast('خرجت من وضع المعلم.');};
+$('teacherBtn').onclick=()=>{
+  if(teacher)return tOff();
+  const d=$('teacherDlg');$('tdCode').value='';$('tdMsg').textContent='';
+  if(d.showModal){d.showModal();$('tdCode').focus();}
+  else{const c=prompt('اكتب رمز المعلم:');if(c!=null&&norm(c)===TEACHER_CODE)tOn();}
+};
+$('tdForm').addEventListener('submit',e=>{
+  if(e.submitter&&e.submitter.value==='cancel')return;
+  if(norm($('tdCode').value)!==TEACHER_CODE){e.preventDefault();$('tdMsg').textContent='الرمز غير صحيح.';$('tdCode').select();return;}
+  tOn();
+});
+$('tMark').onclick=()=>{if(curSec)markDone(curSec);};
+$('tUnlockAll').onclick=()=>{
+  if(!confirm('سيُعتبر الطالب متقنًا لكل الخطوات على هذا الجهاز. هل تريد المتابعة؟'))return;
+  SECS.forEach(s=>ST.done[s.id]=true);saveST();navMarks();toast('🔓 فُتحت كل الخطوات للطالب.');
+};
+$('tExit').onclick=tOff;
 function markDone(id){
   if(ST.done[id]){navMarks();return;}
   ST.done[id]=true;saveST();navMarks();
@@ -1579,7 +1638,7 @@ function machineSolved(){
   if(l.length>=2)markDone('machine');else navMarks();
 }
 
-hcDots();hcNew();navMarks();onScroll();
+hcDots();hcNew();setTeacher(teacher);onScroll();
 {
   const h=location.hash.slice(1),want=[h,ST.page].find(id=>{const k=SECS.findIndex(s=>s.id===id);return k>=0&&isOpen(k);});
   showPage(want||'idea',{noFocus:true});
