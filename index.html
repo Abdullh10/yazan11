@@ -126,7 +126,7 @@ input[type=range]{width:min(100%,420px);accent-color:var(--coral);direction:ltr}
 
 /* ====== اللعبة ====== */
 .game{position:relative;overflow:hidden;border-radius:22px;background:linear-gradient(var(--surface) 0 34%,var(--wave) 34% 100%);min-height:400px;display:grid}
-.hud{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:12px 14px;font-weight:700;font-variant-numeric:tabular-nums;align-items:center}
+.hud{position:relative;z-index:1;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:12px 14px;font-weight:700;font-variant-numeric:tabular-nums;align-items:center}
 .hud span b{font-family:var(--f-display);color:var(--sea)}
 .combo{color:var(--coral);font-family:var(--f-display);font-weight:800}
 .combo.hide{visibility:hidden}
@@ -145,10 +145,10 @@ input[type=range]{width:min(100%,420px);accent-color:var(--coral);direction:ltr}
 .island.good .lbl{background:var(--kelp);color:#fff;border-color:var(--kelp)}
 .island.bad .lbl{background:var(--coral);color:#fff;border-color:var(--coral)}
 .boat{position:absolute;left:50%;bottom:122px;transform:translateX(-50%);transition:left .8s ease-in-out,bottom .8s ease-in-out;display:grid;justify-items:center;pointer-events:none;z-index:2}
-.boat.landed{bottom:62px}
+.boat.landed{bottom:58px}
 .boat .tag{font-family:var(--f-display);font-weight:800;font-size:clamp(20px,5vw,28px);background:var(--sun);color:var(--sun-ink);padding:0 12px;border-radius:12px;margin-bottom:-4px;direction:ltr}
 .boat .tag .dg.under{color:var(--sea-deep);border-bottom-color:var(--sea-deep)}
-.boat svg{width:90px;height:50px}
+.boat svg{width:90px;height:56px}
 .bob{animation:bob 2.2s ease-in-out infinite}
 @keyframes bob{50%{translate:0 -6px}}
 .shake{animation:shake .4s}
@@ -220,9 +220,84 @@ footer{color:var(--muted);font-size:14px;text-align:center}
 
 .hint-btn{background:var(--sun);color:var(--sun-ink);border:0;border-radius:999px;padding:4px 14px;font-weight:800;font-family:var(--f-display);font-size:14px}
 
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* ====== التنقل بين الأقسام ====== */
+html{scroll-behavior:smooth}
+header.hero,section.block,#quizBox{scroll-margin-top:78px}
+nav.top{flex-wrap:wrap;row-gap:0}
+nav.top a{position:relative;transition:background .2s,color .2s}
+nav.top a[aria-current]{background:var(--sea);color:#fff}
+nav.top a .ck{display:none;margin-inline-start:4px;color:var(--kelp);font-size:13px}
+nav.top a.done .ck{display:inline}
+nav.top a[aria-current] .ck{color:#fff}
+.scroll-prog{position:absolute;inset-inline:0;bottom:-1px;height:3px;background:transparent}
+.scroll-prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--sun),var(--coral));margin-inline-start:0;transition:width .1s linear}
+.pager{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;border-top:2px dashed var(--line);padding-top:14px;margin-top:4px}
+.pager a{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink);background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:8px 14px;font-weight:700;max-width:48%;transition:border-color .2s,transform .2s}
+.pager a:hover{border-color:var(--sea);transform:translateY(-2px)}
+.pager a small{display:block;color:var(--muted);font-weight:500;font-size:13px;line-height:1.2}
+.pager a.next{margin-inline-start:auto;background:var(--sea);border-color:var(--sea);color:#fff}
+.pager a.next small{color:color-mix(in srgb,#fff 80%,transparent)}
+.pager .arw{font-size:22px;font-family:var(--f-display);line-height:1}
+.pager .pos{font-size:13px;color:var(--muted);font-weight:700;flex-basis:100%;text-align:center;order:-1}
+.to-top{position:fixed;bottom:20px;inset-inline-start:16px;z-index:30;width:46px;height:46px;border-radius:50%;border:0;background:var(--sea);color:#fff;font-size:22px;box-shadow:0 6px 16px rgba(0,0,0,.25);opacity:0;pointer-events:none;transform:translateY(12px);transition:opacity .25s,transform .25s}
+.to-top.show{opacity:1;pointer-events:auto;transform:none}
+@media (max-width:560px){.pager a{max-width:100%;flex:1 1 100%}}
+
+/* ====== التلّة ثلاثية الأبعاد ====== */
+.hill3d{position:relative;border-radius:18px;overflow:hidden;background:linear-gradient(var(--surface-2),var(--surface) 75%);touch-action:pan-y;cursor:grab}
+.hill3d:active{cursor:grabbing}
+.hill3d canvas{display:block;width:100%!important}
+.hill3d .tip{position:absolute;bottom:8px;inset-inline-start:10px;font-size:13px;color:var(--muted);font-weight:700;background:color-mix(in srgb,var(--surface) 80%,transparent);padding:0 8px;border-radius:8px;pointer-events:none}
+
+/* ====== مشهد اللعبة المجسّم ====== */
+.game{background:linear-gradient(var(--surface-2) 0,var(--surface) 30%,var(--wave) 34%,color-mix(in srgb,var(--sea) 35%,var(--wave)) 100%)}
+.sea{perspective:600px;perspective-origin:50% 0}
+.water{position:absolute;inset:-40px -20% -60px;transform:rotateX(62deg);transform-origin:50% 100%;background:repeating-linear-gradient(0deg,transparent 0 22px,color-mix(in srgb,#fff 45%,transparent) 22px 24px,transparent 24px 46px),repeating-linear-gradient(90deg,transparent 0 60px,color-mix(in srgb,var(--sea) 12%,transparent) 60px 64px);animation:waves 6s linear infinite;opacity:.7;pointer-events:none}
+@keyframes waves{to{background-position:0 46px,64px 0}}
+.cloud{position:absolute;top:8px;width:90px;height:26px;border-radius:20px;background:color-mix(in srgb,#fff 85%,var(--surface-2));opacity:.75;animation:drift 38s linear infinite;pointer-events:none;filter:blur(.3px)}
+.cloud::before,.cloud::after{content:"";position:absolute;background:inherit;border-radius:50%}
+.cloud::before{width:40px;height:34px;top:-16px;left:14px}.cloud::after{width:30px;height:26px;top:-10px;left:44px}
+.cloud.c2{top:40px;width:70px;animation-duration:52s;animation-delay:-20s;opacity:.55}
+@keyframes drift{from{left:-120px}to{left:110%}}
+.island{transition:transform .25s;transform-origin:50% 100%}
+.island svg{filter:drop-shadow(0 8px 6px color-mix(in srgb,var(--sea-deep) 35%,transparent))}
+.island:hover:not(:disabled){transform:translateY(-6px) scale(1.04)}
+.island.good{transform:translateY(-6px) scale(1.06)}
+.boat svg{filter:drop-shadow(0 6px 4px color-mix(in srgb,var(--sea-deep) 40%,transparent))}
+
+/* ====== تحسينات التقويم ====== */
+.qmap{display:flex;flex-wrap:wrap;gap:5px}
+.qmap button{width:30px;height:30px;border-radius:9px;border:2px solid var(--line);background:var(--bg);font:700 13px var(--f-display);color:var(--muted);padding:0;display:grid;place-items:center}
+.qmap button.right{background:var(--kelp);border-color:var(--kelp);color:#fff}
+.qmap button.wrong{background:var(--coral);border-color:var(--coral);color:#fff}
+.qmap button.freeq{background:var(--sun);border-color:var(--sun);color:var(--sun-ink)}
+.qmap button.cur{border-color:var(--sea);color:var(--sea);box-shadow:0 0 0 3px color-mix(in srgb,var(--sea) 30%,transparent)}
+.qmap button.viewing{outline:3px solid var(--ink);outline-offset:1px}
+.qmap button:disabled{opacity:.55;cursor:default}
+.q-legend{display:flex;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--muted);font-weight:700}
+.q-legend i{display:inline-block;width:12px;height:12px;border-radius:4px;margin-inline-end:4px;vertical-align:middle}
+.q-review{border:2px dashed var(--sea);border-radius:16px;padding:12px 14px;display:grid;gap:10px}
+.kbd{font-size:13px;color:var(--muted)}
+.kbd kbd{font:700 12px var(--f-display);background:var(--surface-2);border-radius:6px;padding:0 6px;border:1px solid var(--line)}
+.mode-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;width:100%}
+.mode-card{border:2px solid var(--line);background:var(--bg);border-radius:16px;padding:12px 14px;text-align:start;display:grid;gap:4px;font-size:15px}
+.mode-card b{font-family:var(--f-display);font-size:18px;color:var(--sea-deep)}
+.mode-card:hover{border-color:var(--sea)}
+:root[data-theme="dark"] .mode-card b{color:var(--title)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .mode-card b{color:var(--title)}}
+.resume{background:color-mix(in srgb,var(--sun) 25%,var(--surface));border-radius:14px;padding:10px 14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;width:100%}
+.part-bars{display:grid;gap:8px;width:100%;text-align:start}
+.part-bar{display:grid;grid-template-columns:minmax(0,11em) 1fr auto;gap:10px;align-items:center;font-weight:700;font-size:15px}
+.part-bar .bar{height:12px;background:var(--surface-2);border-radius:6px;overflow:hidden}
+.part-bar .bar i{display:block;height:100%;background:var(--kelp);border-radius:6px}
+.res-stats{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;font-weight:700}
+.res-stats div{background:var(--surface-2);padding:4px 12px;border-radius:12px}
+@media (max-width:480px){.part-bar{grid-template-columns:1fr auto}.part-bar .bar{grid-column:1/-1;grid-row:2}}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 @media print{
-  nav.top,.overlay,.confetti,.toast,.nav-tools,button{display:none!important}
+  .hill-wrap{display:block!important}
+  nav.top,.overlay,.confetti,.toast,.nav-tools,button,.pager,.to-top,.hill3d{display:none!important}
   body{background:#fff;color:#000}
   .panel{border:1px solid #999;page-break-inside:avoid}
 }
@@ -241,7 +316,9 @@ footer{color:var(--muted);font-size:14px;text-align:center}
     <button id="themeBtn" title="تبديل الوضع الليلي" aria-label="تبديل الوضع الليلي">🌙</button>
     <button id="resetAllBtn" title="إعادة تعيين كل البيانات" aria-label="إعادة تعيين كل البيانات">🔄</button>
   </div>
+  <div class="scroll-prog" aria-hidden="true"><i id="scrollProg"></i></div>
 </nav>
+<button class="to-top" id="toTop" aria-label="العودة إلى أعلى الدرس" title="إلى الأعلى">↑</button>
 
 <div class="wrap">
   <header class="hero" id="idea">
@@ -287,8 +364,10 @@ footer{color:var(--muted);font-size:14px;text-align:center}
         <button class="chip" data-mode="C" aria-pressed="false">أقرب عشرة</button>
         <button class="chip" data-mode="A" aria-pressed="true">أقرب ألف (مساحة الكويت)</button>
         <button class="chip" data-mode="B" aria-pressed="false">أقرب جزء من عشرة</button>
+        <button class="chip" id="hill3dBtn" aria-pressed="false" hidden style="margin-inline-start:auto">🧊 مجسّم</button>
       </div>
       <div class="bignum" id="hillNum" aria-live="polite"></div>
+      <div class="hill3d" id="hill3d" hidden><span class="tip">اسحب المشهد لتدويره · انقر مرتين للعودة</span></div>
       <div class="hill-wrap"><svg id="hillSvg" viewBox="0 0 600 240" role="img" aria-label="تلة بين عددين وكرة عليها"></svg></div>
       <div class="ctrl">
         <label for="hillRange" style="font-weight:700">الرقم الواقع عن اليمين:</label>
@@ -341,6 +420,7 @@ footer{color:var(--muted);font-size:14px;text-align:center}
     <p class="sec-sub">القارب يحمل عددًا. انقر الجزيرة التي تحمل العدد بعد التقريب. عشر جولات تبدأ سهلة. من الجولة الخامسة تظهر جزيرة ثالثة فيها فخّ. يمكنك استخدام مفاتيح ١ ٢ ٣ في لوحة المفاتيح.</p>
     <div class="game" id="gameBox">
       <div>
+        <span class="cloud" aria-hidden="true"></span><span class="cloud c2" aria-hidden="true"></span>
         <div class="hud">
           <span>الجولة <b id="gRound">١</b> من ١٠</span>
           <span class="combo hide" id="gCombo">سلسلة ×١</span>
@@ -354,8 +434,9 @@ footer{color:var(--muted);font-size:14px;text-align:center}
         </div>
         <p class="g-q" id="gQ"></p>
         <div class="sea" id="sea">
+          <div class="water" aria-hidden="true"></div>
           <div class="isles" id="isles"></div>
-          <div class="boat" id="boat"><div class="bob"><span class="tag" id="boatNum"></span><svg viewBox="0 0 90 50" aria-hidden="true"><path d="M44 4 L44 30" stroke="var(--ink)" stroke-width="3"/><path d="M46 6 L70 28 L46 28Z" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/><path d="M6 32 L84 32 L72 46 L18 46Z" fill="var(--coral)"/></svg></div></div>
+          <div class="boat" id="boat"><div class="bob"><span class="tag" id="boatNum"></span><svg viewBox="0 0 90 56" aria-hidden="true"><ellipse cx="45" cy="50" rx="44" ry="6" fill="url(#gWater)"/><path d="M44 4 L44 30" stroke="#6B4A22" stroke-width="3"/><path d="M46 6 L72 28 L46 28Z" fill="url(#gSail)" stroke="var(--ink)" stroke-width="1.5"/><path d="M42 9 L24 28 L42 28Z" fill="var(--sun)" stroke="var(--ink)" stroke-width="1.5"/><path d="M4 31 L86 31 L84 35 L6 35Z" fill="color-mix(in srgb,var(--coral) 70%,#fff)"/><path d="M6 35 L84 35 L72 49 L18 49Z" fill="url(#gHull)"/><circle cx="30" cy="41" r="2.5" fill="#fff" opacity=".8"/><circle cx="45" cy="41" r="2.5" fill="#fff" opacity=".8"/><circle cx="60" cy="41" r="2.5" fill="#fff" opacity=".8"/></svg></div></div>
         </div>
         <p class="g-fb" id="gFb" aria-live="polite"></p>
       </div>
@@ -396,6 +477,15 @@ footer{color:var(--muted);font-size:14px;text-align:center}
   <footer>مبني على درس «تقريب الأعداد والكسور العشرية»، الفصل الثاني: الجمع والطرح، الصف الخامس.</footer>
 </div>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <linearGradient id="gIslTop" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--ground)"/><stop offset="1" style="stop-color:var(--ground-line)"/></linearGradient>
+  <linearGradient id="gIslSide" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:#D9B77A"/><stop offset="1" style="stop-color:#8E6A34"/></linearGradient>
+  <linearGradient id="gTrunk" x1="0" y1="0" x2="1" y2="0"><stop offset="0" style="stop-color:#A9783F"/><stop offset="1" style="stop-color:#6B4A22"/></linearGradient>
+  <linearGradient id="gHull" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--coral)"/><stop offset="1" style="stop-color:color-mix(in srgb,var(--coral) 55%,#000)"/></linearGradient>
+  <linearGradient id="gSail" x1="0" y1="0" x2="1" y2="0"><stop offset="0" style="stop-color:#fff"/><stop offset="1" style="stop-color:#D5E4EE"/></linearGradient>
+  <radialGradient id="gWater" cx=".5" cy=".5" r=".5"><stop offset="0" style="stop-color:#fff" stop-opacity=".7"/><stop offset="1" style="stop-color:#fff" stop-opacity="0"/></radialGradient>
+</defs></svg>
+
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -431,6 +521,8 @@ const STORE_KEY='rounding-adventure-v1';
 let ST={theme:null,sound:true,name:'',bestScore:0,bestRight:0,ach:{},plays:0};
 try{const raw=localStorage.getItem(STORE_KEY);if(raw)ST=Object.assign(ST,JSON.parse(raw));}catch(e){}
 function saveST(){try{localStorage.setItem(STORE_KEY,JSON.stringify(ST));}catch(e){}}
+// واجهة المشهد ثلاثي الأبعاد (تُستبدل عند تحميل three.js)
+const H3={on:false,ball(){},labels(){},win(){},theme(){}};
 
 /* ============ الشارات ============ */
 const ACHS=[
@@ -440,6 +532,7 @@ const ACHS=[
   {id:'perfect',ico:'🏆',name:'الدرجة الكاملة',desc:'أجب على كل أسئلة التقويم بشكل صحيح'},
   {id:'machine',ico:'⚙️',name:'عالم الآلة',desc:'استخدم «جرّب بنفسك» في آلة التقريب'},
   {id:'explorer',ico:'🧭',name:'مستكشف',desc:'جرّب كل أوضاع تلّة التقريب الثلاثة'},
+  {id:'practice',ico:'🎯',name:'متدرّب نشيط',desc:'أجب ٨ من ١٠ صحيحة في التدريب الإضافي'},
 ];
 function achGrid(){
   $('achGrid').innerHTML=ACHS.map(a=>`<div class="ach ${ST.ach[a.id]?'unlocked':''}" data-ach="${a.id}">
@@ -478,6 +571,7 @@ function applyTheme(){
   else document.documentElement.removeAttribute('data-theme');
   const dark=ST.theme==='dark'||(!ST.theme&&matchMedia('(prefers-color-scheme:dark)').matches);
   $('themeBtn').textContent=dark?'☀️':'🌙';
+  H3.theme();
 }
 $('themeBtn').onclick=()=>{
   const dark=ST.theme==='dark'||(!ST.theme&&matchMedia('(prefers-color-scheme:dark)').matches);
@@ -489,8 +583,9 @@ applyTheme();
 $('resetAllBtn').onclick=()=>{
   if(!confirm('سيتم حذف اسمك، شاراتك، أفضل نتيجة في اللعبة، وإعداداتك. هل تريد المتابعة؟'))return;
   try{localStorage.removeItem(STORE_KEY);}catch(e){}
-  ST={theme:null,sound:true,name:'',bestScore:0,bestRight:0,ach:{},plays:0};
-  applyTheme();achGrid();
+  ST={theme:null,sound:true,name:'',bestScore:0,bestRight:0,ach:{},plays:0,done:{},view3d:H3.on};
+  try{localStorage.removeItem(QZ_KEY);}catch(e){}
+  applyTheme();achGrid();navMarks();qz=null;qIntro();
   $('gSound').setAttribute('aria-pressed','true');$('gSound').textContent='🔊';
   toast('تمت إعادة تعيين كل البيانات.');
 };
@@ -510,7 +605,7 @@ function beep(ok,kind='normal'){
   }catch(e){}
 }
 
-$('readyBtn').onclick=()=>{$('readyAns').hidden=false;$('readyBtn').hidden=true;};
+$('readyBtn').onclick=()=>{$('readyAns').hidden=false;$('readyBtn').hidden=true;markDone('idea');};
 
 /* ============ تلّة التقريب ============ */
 const MODES={
@@ -537,13 +632,14 @@ function drawHill(){
     <g id="ball"><circle r="15" fill="var(--coral)" stroke="var(--ink)" stroke-width="2"/><path d="M-15 0 A15 15 0 0 0 15 0" fill="none" stroke="#fff" stroke-width="3"/></g>`;
   placeBall(ballT,0);
 }
-function placeBall(t,rot){const b=$('ball');if(b)b.setAttribute('transform',`translate(${hx(t).toFixed(1)},${(hy(t)-16).toFixed(1)}) rotate(${rot||0})`);}
+function placeBall(t,rot){const b=$('ball');if(b)b.setAttribute('transform',`translate(${hx(t).toFixed(1)},${(hy(t)-16).toFixed(1)}) rotate(${rot||0})`);H3.ball(t);}
 function updateHill(){
   const m=MODES[mode],k=+$('hillRange').value;
   $('hillNum').innerHTML=digitsHTML(m.build(k),m.u,m.pk);
   if(anim)cancelAnimationFrame(anim);
   ballT=m.t(k);placeBall(ballT,0);$('hillVerdict').textContent='';
   ['tLo','tHi'].forEach(id=>$(id).setAttribute('fill','var(--ink)'));
+  H3.labels();H3.win(null);
 }
 function setMode(md){
   mode=md;document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.mode===md));
@@ -560,13 +656,181 @@ $('dropBtn').onclick=()=>{
   const step=now=>{const p=Math.min(1,(now-start)/dur),e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
     const t=from+(to-from)*e;placeBall(t,(t-from)*720);
     if(p<1)anim=requestAnimationFrame(step);else{
-      ballT=to;$(up?'tHi':'tLo').setAttribute('fill','var(--kelp)');
+      ballT=to;$(up?'tHi':'tLo').setAttribute('fill','var(--kelp)');H3.win(up);markDone('hill');
       $('hillVerdict').innerHTML=(up?`الرقم ${AR[k]} هو ٥ أو أكبر، فتدحرجت الكرة إلى العدد الأكبر: `:`الرقم ${AR[k]} أصغر من ٥، فعادت الكرة إلى العدد الأصغر: `)+`<span class="num">${ar(num)} ≈ ${ar(up?m.hi:m.lo)}</span>`;
       beep(true);
     }};
   anim=requestAnimationFrame(step);
 };
 setMode('A');
+
+/* ============ التلّة ثلاثية الأبعاد (three.js) ============ */
+const cssVar=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim()||'#888';
+function webglOK(){try{const c=document.createElement('canvas');return !!(window.WebGLRenderingContext&&(c.getContext('webgl')||c.getContext('experimental-webgl')));}catch(e){return false;}}
+function loadThree(cb){
+  if(window.THREE)return cb(true);
+  const sc=document.createElement('script');
+  sc.src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+  sc.onload=()=>cb(!!window.THREE);sc.onerror=()=>cb(false);
+  document.head.appendChild(sc);
+}
+function init3D(){
+  const T=THREE,box=$('hill3d');
+  const HW=5,HH=2.6,R=.34,ZS=1.5,LZ=2.9,B=.05;
+  // الجزيرة: أرض مستوية بيضاوية تنحدر عند الشاطئ إلى البحر
+  const shore=(x,z)=>(x/7.6)**2+(z/4.9)**2;
+  const base=(x,z)=>{const e=shore(x,z);return e<.8?B:B-.45*Math.min(1,(e-.8)/.35);};
+  const f=x=>Math.abs(x)<=HW?HH*Math.cos(Math.PI*x/(2*HW)):0;
+  const df=x=>Math.abs(x)<=HW?-HH*Math.PI/(2*HW)*Math.sin(Math.PI*x/(2*HW)):0;
+  let renderer;
+  try{renderer=new T.WebGLRenderer({antialias:true,alpha:true});}catch(e){return false;}
+  renderer.setPixelRatio(Math.min(2,window.devicePixelRatio||1));
+  renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;
+  box.insertBefore(renderer.domElement,box.firstChild);
+  const scene=new T.Scene(),cam=new T.PerspectiveCamera(34,2,.1,100);
+  scene.fog=new T.Fog(0xffffff,22,48);
+
+  // الإضاءة
+  const hemi=new T.HemisphereLight(0xffffff,0x557744,.6);scene.add(hemi);
+  const sun=new T.DirectionalLight(0xffffff,.7);sun.position.set(-5,10,7);sun.castShadow=true;
+  sun.shadow.bias=-.0008;sun.shadow.normalBias=.03;
+  sun.shadow.mapSize.set(1024,1024);Object.assign(sun.shadow.camera,{left:-8,right:8,top:6,bottom:-6,near:1,far:30});
+  scene.add(sun);
+
+  // البحر حول التلّة
+  const seaM=new T.MeshStandardMaterial({roughness:.6,metalness:.05});
+  const seaP=new T.Mesh(new T.PlaneGeometry(160,120),seaM);seaP.rotation.x=-Math.PI/2;seaP.position.y=-.02;seaP.receiveShadow=true;scene.add(seaP);
+
+  // التلّة: ارتفاعها على مسار الكرة يطابق رسم الدرس
+  const hg=new T.PlaneGeometry(17,11.6,170,96);hg.rotateX(-Math.PI/2);
+  const pos=hg.attributes.position;
+  for(let k=0;k<pos.count;k++){const x=pos.getX(k),z=pos.getZ(k);pos.setY(k,base(x,z)+f(x)*Math.exp(-((z/ZS)**2)));}
+  hg.computeVertexNormals();
+  hg.setAttribute('color',new T.Float32BufferAttribute(new Float32Array(pos.count*3),3));
+  const hillM=new T.MeshStandardMaterial({roughness:.85,vertexColors:true});
+  const hill=new T.Mesh(hg,hillM);hill.receiveShadow=true;scene.add(hill);
+
+  // مسار الكرة
+  const pts=[];for(let s=0;s<=80;s++){const x=-HW-.6+(2*HW+1.2)*s/80;pts.push(new T.Vector3(x,B+f(x)+.025,0));}
+  const trackM=new T.MeshStandardMaterial({roughness:.5});
+  scene.add(new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3(pts),160,.04,6,false),trackM));
+
+  // خط الأعداد أمام التلّة
+  const inkM=new T.MeshStandardMaterial({roughness:.4});
+  const bar=new T.Mesh(new T.BoxGeometry(2*HW+1.4,.09,.09),inkM);bar.position.set(0,B+.05,LZ);scene.add(bar);
+  for(let k=0;k<=10;k++){const h=k%5?.28:.5,tk=new T.Mesh(new T.BoxGeometry(.06,h,.06),inkM);tk.position.set(-HW+k,B+h/2,LZ);scene.add(tk);}
+
+  // علم على القمة
+  const flagZ=-.75,fy=B+f(0)*Math.exp(-((flagZ/ZS)**2));
+  const pole=new T.Mesh(new T.CylinderGeometry(.035,.035,1.1,8),inkM);pole.position.set(0,fy+.55,flagZ);pole.castShadow=true;scene.add(pole);
+  const fs=new T.Shape();fs.moveTo(0,0);fs.lineTo(.6,-.18);fs.lineTo(0,-.36);fs.lineTo(0,0);
+  const flagM=new T.MeshStandardMaterial({side:T.DoubleSide,roughness:.6});
+  const flag=new T.Mesh(new T.ShapeGeometry(fs),flagM);flag.position.set(.03,fy+1.08,flagZ);flag.castShadow=true;scene.add(flag);
+
+  // الكرة: كرة شاطئ بقطاعات ملوّنة حتى يظهر التدحرج
+  const bc=document.createElement('canvas');bc.width=256;bc.height=128;
+  const ballTex=new T.CanvasTexture(bc);
+  const ball=new T.Mesh(new T.SphereGeometry(R,40,24),new T.MeshStandardMaterial({map:ballTex,roughness:.35}));
+  ball.castShadow=true;scene.add(ball);
+
+  // اللافتات (نصوص) كصور تواجه الكاميرا
+  function label(old,text,fg,bg,h){
+    const c=document.createElement('canvas'),x=c.getContext('2d'),F='800 88px "Baloo Bhaijaan 2", Tajawal, sans-serif';
+    x.font=F;const w=Math.ceil(x.measureText(text).width)+56;c.width=w;c.height=128;
+    x.font=F;x.direction='rtl';x.textAlign='center';x.textBaseline='middle';
+    if(bg){x.fillStyle=bg;const r=36;x.beginPath();x.moveTo(r,6);x.arcTo(w-6,6,w-6,122,r);x.arcTo(w-6,122,6,122,r);x.arcTo(6,122,6,6,r);x.arcTo(6,6,w-6,6,r);x.fill();}
+    x.fillStyle=fg;x.fillText(text,w/2,70);
+    const tex=new T.CanvasTexture(c);tex.anisotropy=4;
+    const sp=old||new T.Sprite(new T.SpriteMaterial({transparent:true}));
+    if(old&&old.material.map)old.material.map.dispose();
+    sp.material.map=tex;sp.material.needsUpdate=true;sp.scale.set(h*w/128,h,1);
+    if(!old)scene.add(sp);return sp;
+  }
+  let sLo=null,sHi=null,sPeak=null,winSide=null,tNow=0,LS=1;
+
+  // الكاميرا: سحب لتدوير المشهد
+  const AZ0=.3,EL0=.36;let az=AZ0,el=EL0,drag=null,need=false;
+  const target=new T.Vector3(0,1.05,.6);
+  function camUpdate(){
+    const a=cam.aspect,hf=2*Math.atan(Math.tan(cam.fov*Math.PI/360)*a);
+    const r=Math.max(12,6.6/Math.tan(hf/2)+3);
+    cam.position.set(target.x+r*Math.sin(az)*Math.cos(el),target.y+r*Math.sin(el),target.z+r*Math.cos(az)*Math.cos(el));
+    cam.lookAt(target);
+  }
+  function draw(){if(need)return;need=true;requestAnimationFrame(()=>{need=false;renderer.render(scene,cam);});}
+  const cv=renderer.domElement;
+  cv.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY,az,el,id:e.pointerId,moved:false};});
+  cv.addEventListener('pointermove',e=>{
+    if(!drag||e.pointerId!==drag.id)return;
+    const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
+    if(!drag.moved){if(Math.abs(dx)<4&&Math.abs(dy)<4)return;if(e.pointerType==='touch'&&Math.abs(dy)>Math.abs(dx)){drag=null;return;}drag.moved=true;try{cv.setPointerCapture(e.pointerId);}catch(_){}}
+    az=Math.max(-.75,Math.min(.75,drag.az-dx*.006));el=Math.max(.08,Math.min(.75,drag.el+dy*.004));
+    camUpdate();draw();
+  });
+  const endDrag=()=>{drag=null;};
+  cv.addEventListener('pointerup',endDrag);cv.addEventListener('pointercancel',endDrag);
+  cv.addEventListener('dblclick',()=>{az=AZ0;el=EL0;camUpdate();draw();});
+
+  function resize(){
+    const w=box.clientWidth;if(!w)return;
+    const h=Math.round(w<520?Math.max(280,w*.8):Math.max(240,Math.min(430,w*.56)));
+    renderer.setSize(w,h,false);cv.style.height=h+'px';
+    cam.aspect=w/h;cam.updateProjectionMatrix();camUpdate();
+    const ls=cam.aspect<1.4?1.6:1;if(ls!==LS){LS=ls;H3.labels();}
+    draw();
+  }
+  if(window.ResizeObserver)new ResizeObserver(resize).observe(box);else addEventListener('resize',resize);
+
+  function paintBall(){
+    const x=bc.getContext('2d'),cols=[cssVar('--coral'),'#ffffff',cssVar('--sun'),'#ffffff',cssVar('--sea'),'#ffffff'];
+    cols.forEach((c,k)=>{x.fillStyle=c;x.fillRect(k*256/6,0,256/6+1,128);});
+    x.fillStyle='#ffffff';x.fillRect(0,0,256,10);x.fillRect(0,118,256,10);
+    ballTex.needsUpdate=true;
+  }
+  Object.assign(H3,{
+    ball(t){
+      tNow=t;const x=-HW+2*HW*t,s=df(x),n=Math.hypot(s,1);
+      ball.position.set(x-s*R/n,B+f(x)+R/n,0);ball.rotation.z=-(x+HW)/R;draw();
+    },
+    labels(){
+      const m=MODES[mode],ink=cssVar('--ink'),sf=cssVar('--surface'),kelp=cssVar('--kelp');
+      sLo=label(sLo,ar(m.lo),winSide===false?'#fff':ink,winSide===false?kelp:sf,.62*LS);sLo.position.set(-HW,.6+.35*LS,LZ+.3);
+      sHi=label(sHi,ar(m.hi),winSide===true?'#fff':ink,winSide===true?kelp:sf,.62*LS);sHi.position.set(HW,.6+.35*LS,LZ+.3);
+      sPeak=label(sPeak,'القمة '+ar(m.mid),cssVar('--muted'),null,.5*LS);sPeak.position.set(0,HH+1.25,-.4);
+      draw();
+    },
+    win(side){winSide=side;this.labels();},
+    theme(){
+      const mix=(a,b,t)=>new T.Color(cssVar(a)).lerp(new T.Color(cssVar(b)),t);
+      seaM.color.copy(mix('--wave','--sea',.35));
+      const grass=mix('--ground','--ground-line',.5),top=mix('--ground','--ground-line',.2),sand=new T.Color('#E6CF95'),col=hg.attributes.color,c=new T.Color();
+      for(let k=0;k<pos.count;k++){
+        const x=pos.getX(k),z=pos.getZ(k),e=shore(x,z),y=pos.getY(k);
+        c.copy(grass).lerp(top,Math.min(1,Math.max(0,(y-B)/HH)));
+        if(e>.68)c.lerp(sand,Math.min(1,(e-.68)/.1));
+        col.setXYZ(k,c.r,c.g,c.b);
+      }
+      col.needsUpdate=true;
+      scene.background=mix('--surface-2','--surface',.3);scene.fog.color.copy(scene.background);
+      trackM.color.set(cssVar('--ground-line'));inkM.color.set(cssVar('--ink'));flagM.color.set(cssVar('--sun'));
+      paintBall();this.labels();
+    }
+  });
+  H3.theme();H3.ball(ballT);resize();
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>H3.labels());
+  return true;
+}
+function setView3D(on){
+  H3.on=on;$('hill3d').hidden=!on;document.querySelector('.hill-wrap').hidden=on;
+  $('hill3dBtn').setAttribute('aria-pressed',on);
+  ST.view3d=on;saveST();
+}
+if(webglOK())loadThree(ok=>{
+  if(!ok||!init3D())return;
+  $('hill3dBtn').hidden=false;
+  $('hill3dBtn').onclick=()=>setView3D(!H3.on);
+  setView3D(ST.view3d!==false);
+});
 
 /* ============ آلة التقريب ============ */
 let mStr='17818',mP=3,mStep=0,mMode='watch',mMsg='',mMsgOk=true;
@@ -613,7 +877,7 @@ function renderMachine(){
   }else if(tryMode){task.hidden=false;task.innerHTML=`<p class="msg ok">أحسنت! حللت الخطوات الأربع بنفسك. اختر عددًا آخر وجرّب مرة أخرى.</p>`;}
   else task.hidden=true;
   if(mStep>=4){
-    $('mResult').innerHTML=`<span class="num">${ar(mStr)} ≈ ${ar(r.ans)}</span>`;
+    $('mResult').innerHTML=`<span class="num">${ar(mStr)} ≈ ${ar(r.ans)}</span>`;markDone('machine');
     const L=$('mLine');L.hidden=false;
     L.innerHTML=`<div class="bar"></div><div class="tick" style="left:0%"></div><div class="tick mid" style="left:50%"></div><div class="tick" style="left:100%"></div>
       <span class="end ${r.up?'':'win'}" style="left:0%">${ar(r.lo)}</span><span class="end ${r.up?'win':''}" style="left:100%">${ar(r.hi)}</span>
@@ -685,7 +949,7 @@ function genRound(r){
   c.opts.sort((a,b)=>Number(a.v)-Number(b.v));
   return c;
 }
-const ISL=(flip)=>`<svg viewBox="0 0 200 110" aria-hidden="true"><ellipse cx="100" cy="98" rx="98" ry="14" fill="var(--sea)" opacity=".25"/><path d="M8 100 Q60 40 100 44 Q150 40 192 100Z" fill="var(--ground)" stroke="var(--ground-line)" stroke-width="3"/><g transform="${flip?'translate(200,0) scale(-1,1)':''}"><path d="M118 52 L120 20" stroke="var(--ground-line)" stroke-width="4"/><path d="M120 20 Q100 14 92 26 M120 20 Q140 12 148 24 M120 20 Q118 4 108 2" stroke="var(--kelp)" stroke-width="5" fill="none" stroke-linecap="round"/></g></svg>`;
+const ISL=(flip)=>`<svg viewBox="0 0 200 110" aria-hidden="true"><ellipse cx="100" cy="100" rx="98" ry="10" fill="url(#gWater)"/><path d="M10 86 Q100 70 190 86 L182 100 Q100 110 18 100Z" fill="url(#gIslSide)"/><path d="M10 86 Q50 36 100 40 Q152 36 190 86 Q100 74 10 86Z" fill="url(#gIslTop)" stroke="var(--ground-line)" stroke-width="2"/><ellipse cx="78" cy="56" rx="26" ry="7" fill="#fff" opacity=".25"/><g transform="${flip?'translate(200,0) scale(-1,1)':''}"><path d="M116 60 Q114 36 122 18" stroke="url(#gTrunk)" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M122 18 Q100 10 90 26 M122 18 Q144 8 152 24 M122 18 Q120 0 106 0 M122 18 Q138 2 150 6" stroke="var(--kelp)" stroke-width="6" fill="none" stroke-linecap="round"/><circle cx="119" cy="22" r="3.5" fill="#6B4A22"/><circle cx="126" cy="23" r="3.5" fill="#6B4A22"/></g></svg>`;
 let g={r:0,score:0,right:0,streak:0,cur:null,locked:true,t0:0,timer:null},noTime=false,lastGame=null;
 const limit=r=>r>=6?30000:20000;
 function gUpdateBest(){
@@ -769,6 +1033,7 @@ function gFinish(){
     ST.bestScore=g.score;ST.bestRight=g.right;saveST();
   }
   if(st===3)unlock('captain');
+  markDone('game');
   $('gStars').innerHTML=[0,1,2].map(k=>`<span class="${k<st?'':'off'}">★</span>`).join('');
   $('gEndStats').innerHTML=`
     <div>صحيحة <b>${ar(g.right)}/١٠</b></div>
@@ -862,49 +1127,122 @@ function classifyIn(num,p,v){
   if(r.up&&num[u]==='9')return 'carry';
   return 'other';
 }
-let qz=null,qHintUsed=false;
+const QZ_KEY=STORE_KEY+'-quiz';
+let qz=null,qView=null;
 const LET=['أ','ب','ج','د'];
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function saveQZ(){try{if(qz)localStorage.setItem(QZ_KEY,JSON.stringify(qz));else localStorage.removeItem(QZ_KEY);}catch(e){}}
+try{const raw=localStorage.getItem(QZ_KEY);if(raw){const o=JSON.parse(raw);if(o&&o.v===2&&Array.isArray(o.order))qz=o;}}catch(e){}
+const MODE_NAME={full:'التقويم الكامل',retry:'إعادة الأسئلة الخاطئة',practice:'تدريب إضافي'};
+const prepQ=q=>q.t==='mc'?{...q,perm:shuffle([0,1,2,3])}:{...q};
+// أسئلة تدريب جديدة في كل مرة، بالتدرّج نفسه المستعمل في لعبة جزيرة الكنز
+function practiceSet(){
+  return Array.from({length:10},(_,r)=>{const c=genRound(r);return inq('B',`قرّب ${N(ar(c.s))} إلى ${PA[c.p]}.`,c.s,c.p);});
+}
+function newQuiz(mode,order,name,partsSel){
+  qz={v:2,mode,name,parts:partsSel,order:order.map(prepQ),rec:order.map(()=>null),i:0,t0:Date.now(),t1:0,free:[],done:false};
+  qView=null;saveQZ();qShow();
+}
+function qStats(){
+  const st={score:0,graded:0,hints:0,tags:{},wrong:[],byPart:{}};
+  qz.order.forEach((q,k)=>{
+    const r=qz.rec[k];if(!r)return;
+    if(r.hint)st.hints++;
+    if(q.t==='free')return;
+    const bp=st.byPart[q.part]=st.byPart[q.part]||{ok:0,n:0};
+    st.graded++;bp.n++;
+    if(r.ok){st.score++;bp.ok++;}else{st.wrong.push(k);if(r.tag)st.tags[r.tag]=(st.tags[r.tag]||0)+1;}
+  });
+  return st;
+}
+const qTop=()=>{if($('quizBox').getBoundingClientRect().top<70)$('quizBox').scrollIntoView({block:'start'});};
 function qIntro(){
   const cnt=k=>QUIZ.filter(q=>q.part===k).length;
+  const resume=qz&&!qz.done?`<div class="resume"><span>لديك ${MODE_NAME[qz.mode]} لم يكتمل: وصلت إلى السؤال ${N(ar(qz.i+1))} من ${N(ar(qz.order.length))}.</span><button class="btn alt" id="qResume">أكمل من حيث توقفت</button></div>`:'';
+  const last=qz&&qz.done?`<div class="resume"><span>آخر نتيجة: ${N(ar(qStats().score))} من ${N(ar(qStats().graded))} في ${MODE_NAME[qz.mode]}.</span><button class="btn ghost" id="qLast">اعرض النتيجة</button></div>`:'';
   $('quizBox').innerHTML=`<div style="display:grid;gap:14px;justify-items:start">
+    ${resume}${last}
     <label for="qName" style="font-weight:700">اكتب اسمك:</label>
-    <input id="qName" class="name-in" autocomplete="off" value="${qz?esc(qz.name):esc(ST.name||'')}">
+    <input id="qName" class="name-in" autocomplete="off" value="${esc(ST.name||'')}">
     <fieldset class="parts" style="border:0;padding:0;margin:0"><legend style="font-weight:700;margin-bottom:6px">اختر الأجزاء:</legend>
       ${Object.keys(PARTS).map(k=>`<label><input type="checkbox" id="part${k}" checked> ${PARTS[k]} (${ar(cnt(k))} سؤالًا)</label>`).join('')}
     </fieldset>
     <p class="msg" id="qWarn" style="color:var(--coral);font-weight:700"></p>
-    <button class="btn alt" id="qGo">ابدأ التقويم</button></div>`;
+    <div class="mode-cards">
+      <button class="mode-card" id="qGo"><b>📝 ابدأ التقويم</b>أسئلة الكتاب للأجزاء المختارة، مع تصحيح وشرح بعد كل سؤال.</button>
+      <button class="mode-card" id="qPractice"><b>🎲 تدريب إضافي</b>عشرة أسئلة جديدة عشوائية تتدرّج من العشرات إلى أجزاء من مئة.</button>
+    </div>
+    <p class="kbd">اختصارات: <kbd>١</kbd>–<kbd>٤</kbd> لاختيار الإجابة، <kbd>Enter</kbd> للسؤال التالي.</p></div>`;
+  const getName=()=>{const n=$('qName').value.trim();ST.name=n;saveST();return n;};
+  if($('qResume'))$('qResume').onclick=()=>{qView=null;qShow();};
+  if($('qLast'))$('qLast').onclick=()=>{qView=null;qEnd();};
   $('qGo').onclick=()=>{
     const sel=Object.keys(PARTS).filter(k=>$('part'+k).checked);
     if(!sel.length){$('qWarn').textContent='اختر جزءًا واحدًا على الأقل.';return;}
-    const name=$('qName').value.trim();
-    ST.name=name;saveST();
-    qz={i:0,score:0,graded:0,wrong:[],tags:{},free:[],name,parts:sel,
-      order:QUIZ.filter(q=>sel.includes(q.part)).map(q=>q.t==='mc'?{...q,perm:shuffle([0,1,2,3])}:{...q})};
-    qShow();
+    newQuiz('full',QUIZ.filter(q=>sel.includes(q.part)),getName(),sel);
   };
+  $('qPractice').onclick=()=>newQuiz('practice',practiceSet(),getName(),['B']);
 }
-function qMark(ok,q,tag,extra){
-  if(q.t!=='free'){qz.graded++;if(ok)qz.score++;else{qz.wrong.push(q);qz.tags[tag]=(qz.tags[tag]||0)+1;}}
+function qmapHTML(){
+  return `<div class="qmap" role="group" aria-label="خريطة الأسئلة">${qz.order.map((q,k)=>{
+    const r=qz.rec[k];let cl=r?(q.t==='free'?'freeq':r.ok?'right':'wrong'):'';
+    if(k===qz.i)cl+=' cur';if(k===qView)cl+=' viewing';
+    const st=r?(q.t==='free'?'محفوظة':r.ok?'صحيحة':'خاطئة'):(k===qz.i?'الحالي':'لم يُجب بعد');
+    return `<button class="${cl}" data-k="${k}" ${!r&&k!==qz.i?'disabled':''} aria-label="السؤال ${ar(k+1)}: ${st}">${ar(k+1)}</button>`;}).join('')}</div>
+    <div class="q-legend"><span><i style="background:var(--kelp)"></i>صحيحة</span><span><i style="background:var(--coral)"></i>خاطئة</span><span><i style="border:2px solid var(--sea)"></i>الحالي</span><span>انقر رقم سؤال أجبت عنه لمراجعته</span></div>`;
+}
+function qHeader(){
+  const tot=qz.order.length,done=qz.rec.filter(Boolean).length;
+  const where=qz.done?'مراجعة الإجابات':`السؤال ${N(ar(qz.i+1))} من ${N(ar(tot))}`;
+  return `<div id="qHead" style="display:grid;gap:10px"><div class="q-top"><b>${MODE_NAME[qz.mode]} · ${where}</b><div class="progress"><i style="width:${done/tot*100}%"></i></div><b>الدرجة ${N(ar(qStats().score))}</b></div>${qmapHTML()}</div>`;
+}
+function bindMap(){
+  document.querySelectorAll('.qmap button').forEach(b=>b.onclick=()=>{
+    const k=+b.dataset.k;
+    if(k===qz.i&&!qz.rec[k]){qView=null;qShow();}
+    else if(qz.rec[k])qReview(k);
+  });
+}
+function qReview(k){
+  qView=k;const q=qz.order[k],r=qz.rec[k],tot=qz.order.length;
+  const back=qz.done?'ارجع إلى النتيجة':'ارجع إلى السؤال الحالي';
+  $('quizBox').innerHTML=`${qHeader()}
+    <div class="q-review"><span class="part-tag">مراجعة السؤال ${N(ar(k+1))} · ${PARTS[q.part]}</span>
+    <p class="q-text">${q.q}</p>
+    <p><b>إجابتك:</b> ${r.your||'—'}</p>
+    <div class="explain">${r.ex}</div></div>
+    <div class="q-nav">${k>0&&qz.rec[k-1]?`<button class="btn ghost" id="qPrevR">السؤال السابق</button>`:''}<button class="btn alt" id="qBack">${back}</button></div>`;
+  bindMap();
+  if($('qPrevR'))$('qPrevR').onclick=()=>qReview(k-1);
+  $('qBack').onclick=()=>{qView=null;qz.done?qEnd():qShow();};
+  $('qBack').focus({preventScroll:true});
+}
+function qMark(ok,q,tag,extra,your){
+  const k=qz.i,isFree=q.t==='free';
   beep(ok);
-  const ex=$('qEx');ex.hidden=false;
-  const head=q.t==='free'?'<b class="ok">حُفظت إجابتك.</b>':`<b class="${ok?'ok':'no'}">${ok?'إجابة صحيحة!':'إجابة غير صحيحة.'}</b>`;
+  const head=isFree?'<b class="ok">حُفظت إجابتك.</b>':`<b class="${ok?'ok':'no'}">${ok?'إجابة صحيحة!':'إجابة غير صحيحة.'}</b>`;
   const tagTxt=!ok&&tag&&TAGS[tag]&&tag!=='other'?`<br><b>انتبه (${TAGS[tag][0]}):</b> ${TAGS[tag][1]}`:'';
   let line='';
   if(!ok&&q.num!=null){
     const r=roundInfo(q.num,q.p);
     line=`<div class="mini-line" style="margin-top:10px"><div class="bar"></div>
+      <div class="tick" style="left:0%"></div><div class="tick mid" style="left:50%"></div><div class="tick" style="left:100%"></div>
       <span class="end ${r.up?'':'win'}" style="left:0%">${ar(r.lo)}</span>
       <span class="end ${r.up?'win':''}" style="left:100%">${ar(r.hi)}</span>
       <span class="pin" style="left:${(r.frac*100).toFixed(1)}%"></span></div>`;
   }
-  ex.innerHTML=`${head}${extra?' '+extra:''} ${q.e||explainIn(q.num,q.p)}${tagTxt}${line}`;
-  $('qNext').hidden=false;$('qNext').focus();
+  const ex=`${head}${extra?' '+extra:''} ${q.e||explainIn(q.num,q.p)}${tagTxt}${line}`;
+  const prev=qz.rec[k];
+  qz.rec[k]={ok:isFree?true:ok,tag:ok?null:tag,your,ex,hint:!!(prev&&prev.hint)};
+  saveQZ();
+  const box=$('qEx');box.hidden=false;box.innerHTML=ex;
+  // تحديث الخريطة والدرجة دون إعادة رسم السؤال
+  $('qHead').outerHTML=qHeader();bindMap();
+  $('qNext').hidden=false;$('qNext').focus({preventScroll:true});
 }
 function qShow(){
+  if(qz.i>=qz.order.length||qz.done)return qEnd();
   const q=qz.order[qz.i],tot=qz.order.length;
-  qHintUsed=false;
   let body='';
   if(q.t==='mc'){
     const long=q.o.some(o=>o[0].length>14);
@@ -916,34 +1254,44 @@ function qShow(){
   }else{
     body=`<textarea id="qFree" aria-label="إجابتك"></textarea><div><button class="btn alt" id="qCheck">احفظ إجابتي</button></div><p id="qHint" style="color:var(--coral);font-weight:700;min-height:1.4em"></p>`;
   }
-  $('quizBox').innerHTML=`<div class="q-top"><b>السؤال ${N(ar(qz.i+1))} من ${N(ar(tot))}</b><div class="progress"><i style="width:${qz.i/tot*100}%"></i></div><b>الدرجة ${N(ar(qz.score))}</b></div>
+  $('quizBox').innerHTML=`${qHeader()}
     <span class="part-tag">${PARTS[q.part]}</span>
     <p class="q-text">${q.q}</p>${body}
     <div class="explain" id="qEx" hidden></div>
-    <div class="q-nav"><button class="btn alt" id="qNext" hidden>${qz.i+1<tot?'السؤال التالي':'اعرض النتيجة'}</button></div>`;
-  if(q.t==='mc'){
+    <div class="q-nav"><button class="btn ghost" id="qQuit">خروج وحفظ</button><button class="btn alt" id="qNext" hidden>${qz.i+1<tot?'السؤال التالي':'اعرض النتيجة'}</button></div>`;
+  bindMap();
+  $('qQuit').onclick=()=>{saveQZ();qIntro();qTop();};
+  // سؤال أُجيب عنه سابقًا (بعد إعادة تحميل الصفحة مثلًا): نعرض تصحيحه
+  const done=qz.rec[qz.i];
+  if(done){
+    $('qEx').hidden=false;$('qEx').innerHTML=done.ex;$('qNext').hidden=false;
+    document.querySelectorAll('#quizBox .opt,#quizBox input,#quizBox textarea,#qCheck,#qHintBtn').forEach(x=>x.disabled=true);
+  }else if(q.t==='mc'){
     document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+      if(b.disabled)return;
       const oi=+b.dataset.oi,ok=oi===0;
       document.querySelectorAll('.opt').forEach(x=>{x.disabled=true;if(+x.dataset.oi===0)x.classList.add('right');});
       if(!ok)b.classList.add('wrong');
-      qMark(ok,q,q.o[oi][1]);
+      qMark(ok,q,q.o[oi][1],'',q.o[oi][0]);
     });
   }else if(q.t==='in'){
-    const inp=$('qIn');inp.focus();
+    const inp=$('qIn');inp.focus({preventScroll:true});
     $('qHintBtn').onclick=()=>{
-      if(qHintUsed)return;qHintUsed=true;
       const p=q.p,u=idxOf(q.num,p);
+      $('qHintBtn').disabled=true;
+      qz.hintAt=qz.i;saveQZ();
       $('qHint').innerHTML=`التلميح: ضع خطًّا تحت الرقم في منزلة <b>${PN[p]}</b>، إنه <b class="num">${AR[q.num[u]]}</b>. انظر إلى الرقم عن يمينه.`;
       $('qHint').style.color='var(--sea)';
     };
     const chk=()=>{const v=norm(inp.value);if(!isNum(v)){$('qHint').textContent='اكتب عددًا بالأرقام، مثل ٢٥ أو ٤٫٣';$('qHint').style.color='var(--coral)';return;}
-      const ans=roundInfo(q.num,q.p).ans,ok=canon(v)===canon(ans);
+      const ans=roundInfo(q.num,q.p).ans,ok=canon(v)===canon(ans),usedHint=qz.hintAt===qz.i;
       inp.disabled=true;$('qCheck').disabled=true;$('qHintBtn').disabled=true;$('qHint').textContent='';inp.classList.add(ok?'ok':'no');
       const note=ok&&parts(v).d>parts(ans).d?'(نكتبها '+ar(ans)+' بحذف الأرقام الزائدة.)':'';
-      qMark(ok,q,ok?null:classifyIn(q.num,q.p,v),note);};
-    $('qCheck').onclick=chk;inp.onkeydown=e=>{if(e.key==='Enter')chk();};
+      qMark(ok,q,ok?null:classifyIn(q.num,q.p,v),note,N(ar(v)));
+      if(usedHint){qz.rec[qz.i].hint=true;saveQZ();}};
+    $('qCheck').onclick=chk;inp.onkeydown=e=>{if(e.key==='Enter'){e.stopPropagation();chk();}};
   }else if(q.t==='two'){
-    $('qA').focus();
+    $('qA').focus({preventScroll:true});
     $('qCheck').onclick=()=>{const a=norm($('qA').value),b=norm($('qB').value);
       if(!isNum(a)||!isNum(b)){$('qHint').textContent='اكتب عددين بالأرقام.';return;}
       if(canon(a)===canon(b)){$('qHint').textContent='اكتب عددين مختلفين.';return;}
@@ -952,53 +1300,145 @@ function qShow(){
       $('qA').classList.add(ga?'ok':'no');$('qB').classList.add(gb?'ok':'no');
       $('qA').disabled=$('qB').disabled=$('qCheck').disabled=true;$('qHint').textContent='';
       qz.free.push('عددان يقرّبان إلى ١٨٫٣: '+ar(a)+' و '+ar(b));
-      qMark(ok,q,ok?null:'dir');};
+      qMark(ok,q,ok?null:'dir','',N(ar(a))+' و '+N(ar(b)));};
   }else{
     $('qCheck').onclick=()=>{const t=$('qFree').value.trim();if(t.length<5){$('qHint').textContent='اكتب موقفين على الأقل.';return;}
-      $('qFree').disabled=true;$('qCheck').disabled=true;$('qHint').textContent='';qz.free.push('مواقف التقريب: '+t);qMark(true,q,null);};
+      $('qFree').disabled=true;$('qCheck').disabled=true;$('qHint').textContent='';qz.free.push('مواقف التقريب: '+t);qMark(true,q,null,'',esc(t));};
   }
-  $('qNext').onclick=()=>{qz.i++;qz.i<tot?qShow():qEnd();};
+  $('qNext').onclick=()=>{qz.i++;qView=null;saveQZ();qz.i<tot?qShow():qEnd();qTop();};
 }
-function buildReport(){
-  const tagLines=Object.entries(qz.tags).sort((a,b)=>b[1]-a[1]).map(([t,n])=>`- ${TAGS[t][0]}: ${ar(n)}`).join('\n')||'- لا توجد أخطاء';
+// لوحة المفاتيح: ١-٤ أو أ-د للاختيار، Enter للتالي
+document.addEventListener('keydown',e=>{
+  if(e.altKey||e.ctrlKey||e.metaKey)return;
+  const box=$('quizBox'),r=box.getBoundingClientRect();
+  if(r.bottom<0||r.top>innerHeight)return;
+  if(/^(INPUT|TEXTAREA)$/.test(document.activeElement&&document.activeElement.tagName))return;
+  const key=norm(e.key),li=LET.indexOf(e.key),k=/^[1-4]$/.test(key)?+key-1:li;
+  if(k>=0){const b=box.querySelectorAll('.opt')[k];if(b&&!b.disabled){e.preventDefault();b.click();}return;}
+  if(e.key==='Enter'&&document.activeElement===document.body){const n=$('qNext');if(n&&!n.hidden){e.preventDefault();n.click();}}
+});
+function fmtTime(ms){const s=Math.round(ms/1000),m=Math.floor(s/60);return m?`${ar(m)} د ${ar(s%60)} ث`:`${ar(s)} ث`;}
+function buildReport(st){
+  const tagLines=Object.entries(st.tags).sort((a,b)=>b[1]-a[1]).map(([t,n])=>`- ${TAGS[t][0]}: ${ar(n)}`).join('\n')||'- لا توجد أخطاء';
+  const partLines=Object.entries(st.byPart).map(([p,b])=>`- ${PARTS[p]}: ${ar(b.ok)} من ${ar(b.n)}`).join('\n');
   return `تقرير درس تقريب الأعداد والكسور العشرية (٢-١)
 الطالب: ${qz.name||'بدون اسم'}
 التاريخ: ${new Date().toLocaleDateString('ar-SA')}
-الأجزاء: ${qz.parts.map(k=>PARTS[k]).join('، ')}
-الدرجة: ${ar(qz.score)} من ${ar(qz.graded)}
+النوع: ${MODE_NAME[qz.mode]}
+الدرجة: ${ar(st.score)} من ${ar(st.graded)}
+حسب الجزء:
+${partLines}
+الوقت: ${fmtTime((qz.t1||Date.now())-qz.t0)} · التلميحات المستعملة: ${ar(st.hints)}
 الأخطاء حسب النوع:
 ${tagLines}
 لعبة جزيرة الكنز: ${lastGame?`${ar(lastGame.right)} من ١٠، ${ar(lastGame.score)} نقطة`:'لم تُلعب'}
 ${qz.free.join('\n')}`;
 }
 function qEnd(){
-  const tot=qz.graded,pct=tot?qz.score/tot:0,st=pct>=.9?3:pct>=.7?2:pct>=.5?1:0;
-  if(tot>0&&qz.score===tot)unlock('perfect');
-  const msg=st===3?'ممتاز! أتقنت التقريب.':st===2?'جيد جدًا! راجع الأخطاء أدناه.':st===1?'جيد. تدرّب في «جرّب بنفسك» داخل آلة التقريب.':'لا بأس. ابدأ من تلّة التقريب ثم حاول مجددًا.';
-  const top=Object.entries(qz.tags).sort((a,b)=>b[1]-a[1]).slice(0,3);
+  if(!qz.done){qz.done=true;qz.t1=Date.now();saveQZ();
+    const s0=qStats();
+    if(qz.mode==='full'&&s0.graded>0&&s0.score===s0.graded)unlock('perfect');
+    if(qz.mode==='practice'&&s0.score>=8)unlock('practice');
+    markDone('quiz');
+  }
+  qView=null;
+  const st=qStats(),tot=st.graded,pct=tot?st.score/tot:0,stars=pct>=.9?3:pct>=.7?2:pct>=.5?1:0;
+  const msg=stars===3?'ممتاز! أتقنت التقريب.':stars===2?'جيد جدًا! راجع الأخطاء أدناه.':stars===1?'جيد. تدرّب في «جرّب بنفسك» داخل آلة التقريب.':'لا بأس. ابدأ من تلّة التقريب ثم حاول مجددًا.';
+  const top=Object.entries(st.tags).sort((a,b)=>b[1]-a[1]).slice(0,3);
+  const ansOf=q=>q.t==='mc'?q.o[0][0]:q.t==='in'?N(ar(roundInfo(q.num,q.p).ans)):q.e;
   $('quizBox').innerHTML=`<div style="display:grid;gap:14px;justify-items:center;text-align:center">
     ${qz.name?`<p class="q-text">${esc(qz.name)}</p>`:''}
-    <div class="score-big num">${ar(qz.score)} / ${ar(tot)}</div>
-    <div class="stars">${[0,1,2].map(k=>`<span class="${k<st?'':'off'}">★</span>`).join('')}</div>
+    <span class="part-tag" style="justify-self:center">${MODE_NAME[qz.mode]}</span>
+    <div class="score-big num">${ar(st.score)} / ${ar(tot)}</div>
+    <div class="stars">${[0,1,2].map(k=>`<span class="${k<stars?'':'off'}">★</span>`).join('')}</div>
     <p>${msg}</p>
+    <div class="res-stats"><div>⏱️ ${fmtTime(qz.t1-qz.t0)}</div><div>💡 التلميحات ${ar(st.hints)}</div><div>✅ ${ar(Math.round(pct*100))}٪</div></div>
+    <div class="part-bars">${Object.entries(st.byPart).map(([p,b])=>`<div class="part-bar"><span>${PARTS[p]}</span><span class="bar"><i style="width:${b.n?b.ok/b.n*100:0}%"></i></span><span class="num">${ar(b.ok)}/${ar(b.n)}</span></div>`).join('')}</div>
+    ${qmapHTML()}
     ${top.length?`<h3 style="font-size:20px">أكثر ما تحتاج إلى مراجعته</h3><div class="err-list">${top.map(([t,n])=>`<div><b>${TAGS[t][0]} (${ar(n)})</b>: ${TAGS[t][1]}</div>`).join('')}</div>`:''}
-    ${qz.wrong.length?`<h3 style="font-size:20px">الأسئلة التي أخطأت فيها</h3><ul class="review">${qz.wrong.map(q=>`<li>${q.q}<br><b style="color:var(--kelp)">الإجابة: ${q.t==='mc'?q.o[0][0]:q.t==='in'?N(ar(roundInfo(q.num,q.p).ans)):q.e}</b></li>`).join('')}</ul>`:''}
+    ${st.wrong.length?`<h3 style="font-size:20px">الأسئلة التي أخطأت فيها</h3><ul class="review">${st.wrong.map(k=>{const q=qz.order[k];return `<li>${q.q}<br>إجابتك: ${qz.rec[k].your||'—'}<br><b style="color:var(--kelp)">الإجابة: ${ansOf(q)}</b></li>`;}).join('')}</ul>`:''}
     <h3 style="font-size:20px">تقرير للمعلم</h3>
-    <textarea class="report" id="qReport" readonly aria-label="تقرير للمعلم">${esc(buildReport())}</textarea>
+    <textarea class="report" id="qReport" readonly aria-label="تقرير للمعلم">${esc(buildReport(st))}</textarea>
     <div class="ctrl">
-      <button class="btn" id="qCopy">انسخ التقرير</button>
+      ${st.wrong.length?`<button class="btn" id="qRetry">أعد الأسئلة الخاطئة (${ar(st.wrong.length)})</button>`:''}
+      <button class="btn alt" id="qCopy">انسخ التقرير</button>
       <button class="btn alt" id="qPrint">اطبع</button>
-      <button class="btn alt" id="qAgain">أعد التقويم</button>
+      <button class="btn ghost" id="qAgain">تقويم جديد</button>
     </div>
     <p id="qCopyMsg" style="font-weight:700;min-height:1.4em"></p></div>`;
+  document.querySelectorAll('.qmap button').forEach(b=>b.onclick=()=>{qReview(+b.dataset.k);qTop();});
+  if($('qRetry'))$('qRetry').onclick=()=>newQuiz('retry',st.wrong.map(k=>qz.order[k]),qz.name,qz.parts);
   $('qCopy').onclick=()=>{
     const t=$('qReport').value,fb=()=>{$('qReport').select();$('qCopyMsg').textContent='حدّدنا النص، انسخه يدويًا.';};
     try{navigator.clipboard.writeText(t).then(()=>{$('qCopyMsg').textContent='نُسخ التقرير. الصقه في رسالة للمعلم.';},fb);}catch(e){fb();}
   };
   $('qPrint').onclick=()=>window.print();
   $('qAgain').onclick=qIntro;
-  if(st===3)confetti(150);
+  if(stars===3)confetti(150);
 }
+
+/* ============ التنقل بين الأقسام ============ */
+const SECS=[...document.querySelectorAll('nav.top a[href^="#"]')].map(a=>({id:a.getAttribute('href').slice(1),name:a.textContent.trim(),a}));
+SECS.forEach(s=>{s.el=$(s.id);s.a.insertAdjacentHTML('beforeend','<span class="ck" aria-hidden="true">✓</span>');});
+function markDone(id){
+  ST.done=ST.done||{};
+  if(!ST.done[id]){ST.done[id]=true;saveST();}
+  navMarks();
+}
+function navMarks(){
+  const d=ST.done||{};
+  SECS.forEach(s=>{s.a.classList.toggle('done',!!d[s.id]);s.a.title=d[s.id]?'أنجزت هذا القسم':'';});
+}
+// أزرار «السابق / التالي» في نهاية كل قسم
+SECS.forEach((s,k)=>{
+  const prev=SECS[k-1],next=SECS[k+1];
+  const pg=document.createElement('nav');pg.className='pager';pg.setAttribute('aria-label','التنقل بين الأقسام');
+  pg.innerHTML=`<span class="pos">القسم ${ar(k+1)} من ${ar(SECS.length)}</span>`+
+    (prev?`<a href="#${prev.id}" class="prev"><span class="arw" aria-hidden="true">→</span><span><small>السابق</small>${prev.name}</span></a>`:'')+
+    (next?`<a href="#${next.id}" class="next"><span><small>التالي</small>${next.name}</span><span class="arw" aria-hidden="true">←</span></a>`:`<a href="#idea" class="next"><span><small>انتهى الدرس</small>العودة إلى البداية</span><span class="arw" aria-hidden="true">↑</span></a>`);
+  s.el.appendChild(pg);
+});
+// القسم الحالي يضيء في الشريط العلوي
+let curSec=null;
+function setCurrent(id){
+  if(id===curSec)return;curSec=id;
+  SECS.forEach(s=>{if(s.id===id)s.a.setAttribute('aria-current','location');else s.a.removeAttribute('aria-current');});
+  const s=SECS.find(x=>x.id===id),ul=s&&s.a.closest('ul');
+  if(ul&&ul.scrollWidth>ul.clientWidth){
+    const ar_=s.a.getBoundingClientRect(),ur=ul.getBoundingClientRect();
+    ul.scrollBy({left:(ar_.left+ar_.width/2)-(ur.left+ur.width/2),behavior:'smooth'});
+  }
+  if(history.replaceState&&location.hash!=='#'+id)try{history.replaceState(null,'','#'+id);}catch(e){}
+}
+function onScroll(){
+  const de=document.documentElement,max=de.scrollHeight-innerHeight;
+  $('scrollProg').style.width=(max>0?Math.min(100,scrollY/max*100):0)+'%';
+  $('toTop').classList.toggle('show',scrollY>innerHeight*.8);
+  // القسم الذي يعبر خطًّا وهميًّا في ثلث الشاشة العلوي
+  const line=innerHeight*.33;let id=SECS[0].id;
+  for(const s of SECS){if(s.el.getBoundingClientRect().top<=line)id=s.id;}
+  if(max>0&&scrollY>=max-2)id=SECS[SECS.length-1].id;
+  setCurrent(id);
+}
+let scrollRaf=0;
+addEventListener('scroll',()=>{if(!scrollRaf)scrollRaf=requestAnimationFrame(()=>{scrollRaf=0;onScroll();});},{passive:true});
+addEventListener('resize',onScroll);
+$('toTop').onclick=()=>{scrollTo({top:0});$('idea').setAttribute('tabindex','-1');$('idea').focus({preventScroll:true});};
+// نقل التركيز إلى القسم بعد الانتقال إليه (لقارئات الشاشة ولوحة المفاتيح)
+document.addEventListener('click',e=>{
+  const a=e.target.closest('a[href^="#"]');if(!a)return;
+  const t=$(a.getAttribute('href').slice(1));if(!t)return;
+  e.preventDefault();
+  t.scrollIntoView({block:'start'});
+  t.setAttribute('tabindex','-1');t.focus({preventScroll:true});
+});
+// اختصارات: Alt + ← للقسم التالي، Alt + → للسابق
+document.addEventListener('keydown',e=>{
+  if(!e.altKey||!/^Arrow(Left|Right)$/.test(e.key))return;
+  const k=SECS.findIndex(s=>s.id===curSec),n=SECS[k+(e.key==='ArrowLeft'?1:-1)];
+  if(n){e.preventDefault();n.el.scrollIntoView({block:'start'});}
+});
+navMarks();onScroll();
 achGrid();
 qIntro();
 </script>
