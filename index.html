@@ -199,6 +199,12 @@ textarea{font:500 17px var(--f-body);width:100%;min-height:110px;padding:10px;bo
 .err-list div{background:color-mix(in srgb,var(--coral) 10%,var(--surface));border-radius:12px;padding:8px 12px}
 .report{width:100%;font:500 15px/1.6 var(--f-body);min-height:180px}
 footer{color:var(--muted);font-size:14px;text-align:center}
+footer{display:grid;gap:10px;justify-items:center}
+.credits{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.credits span{background:var(--surface);border:2px solid var(--line);border-radius:999px;padding:4px 16px;font-size:15px;font-weight:700;color:var(--ink)}
+.credits b{font-family:var(--f-display);color:var(--sea-deep)}
+:root[data-theme="dark"] .credits b{color:var(--title)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .credits b{color:var(--title)}}
 
 /* ====== الإضافات الجديدة ====== */
 .achievements{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
@@ -543,7 +549,13 @@ nav.top a .ck{display:none!important}
     <div class="panel" id="quizBox"></div>
   </section>
 
-  <footer>مبني على درس «تقريب الأعداد والكسور العشرية»، الفصل الثاني: الجمع والطرح، الصف الخامس.</footer>
+  <footer>
+    <div class="credits">
+      <span>✏️ إعداد الطالب: <b>يزن عبدالله حمدي</b></span>
+      <span>👨‍🏫 إشراف المعلم: <b>علي سليط</b></span>
+    </div>
+    <p>مبني على درس «تقريب الأعداد والكسور العشرية»، الفصل الثاني: الجمع والطرح، الصف الخامس.</p>
+  </footer>
 </div>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
@@ -1487,7 +1499,7 @@ const GOALS={
 };
 ST.done=ST.done||{};ST.prog=ST.prog||{};
 // رمز المعلم: غيّره هنا إن أردت
-const TEACHER_CODE='2468';
+const TEACHER_CODE='1122';
 let teacher=false;
 try{teacher=sessionStorage.getItem(STORE_KEY+'-teacher')==='1';}catch(e){}
 const isOpen=k=>teacher||k===0||!!ST.done[SECS[k-1].id];
